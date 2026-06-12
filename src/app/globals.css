@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-slate-200;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1 { @apply text-3xl font-bold tracking-tight; }
+  h2 { @apply text-2xl font-semibold tracking-tight; }
+  h3 { @apply text-xl font-semibold; }
+  h4 { @apply text-lg font-medium; }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-200 p-6;
+  }
+
+  .badge-a1 { @apply bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-a2 { @apply bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-b1 { @apply bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-b2 { @apply bg-purple-100 text-purple-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-c1 { @apply bg-orange-100 text-orange-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-c2 { @apply bg-red-100 text-red-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+
+  .flashcard-container { perspective: 1000px; }
+
+  .flashcard-inner {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+
+  .flashcard-inner.flipped { transform: rotateY(180deg); }
+
+  .flashcard-front,
+  .flashcard-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flashcard-back { transform: rotateY(180deg); }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-slate-300 rounded-full; }
+}

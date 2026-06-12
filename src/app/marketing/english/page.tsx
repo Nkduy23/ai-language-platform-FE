@@ -1,0 +1,1 @@
+// English landing page (SEO)

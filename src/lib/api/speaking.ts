@@ -1,0 +1,1 @@
+// ai-speaking API functions

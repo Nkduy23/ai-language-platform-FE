@@ -1,0 +1,1 @@
+// Japanese landing page (SEO)
