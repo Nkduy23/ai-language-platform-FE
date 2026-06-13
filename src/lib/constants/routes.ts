@@ -1,19 +1,16 @@
-// API_ROUTES, APP_ROUTES
 export const ROUTES = {
-  // Public
   HOME: "/",
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
 
-  // Marketing
   LEARN_ENGLISH: "/marketing/english",
   LEARN_CHINESE: "/marketing/chinese",
   LEARN_JAPANESE: "/marketing/japanese",
   BLOG: "/marketing/blog",
 
-  // Dashboard
   DASHBOARD: "/dashboard/learn",
   LEARN: "/dashboard/learn",
+  GRAMMAR: "/dashboard/grammar",
   QUIZ: "/dashboard/quiz",
   CHAT: "/dashboard/chat",
   SPEAKING: "/dashboard/speaking",

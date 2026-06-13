@@ -1,9 +1,8 @@
-// Dashboard sidebar
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame } from "lucide-react";
+import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { ROUTES } from "@/lib/constants/routes";
 import { useAuthStore } from "@/store/authStore";
@@ -12,6 +11,7 @@ import toast from "react-hot-toast";
 
 const NAV_ITEMS = [
   { href: ROUTES.LEARN, label: "Từ vựng", icon: BookOpen },
+  { href: ROUTES.GRAMMAR, label: "Ngữ pháp", icon: GraduationCap },
   { href: ROUTES.QUIZ, label: "Quiz", icon: Brain },
   { href: ROUTES.CHAT, label: "AI Chat", icon: MessageCircle },
   { href: ROUTES.SPEAKING, label: "Speaking", icon: Mic },
@@ -81,9 +81,8 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Bottom: Stats + Logout */}
+      {/* Bottom */}
       <div className="p-3 border-t border-slate-100 space-y-2">
-        {/* Streak & XP */}
         <div className="flex items-center gap-3 px-3 py-2 bg-slate-50 rounded-lg">
           <div className="flex items-center gap-1.5 text-orange-500">
             <Flame className="w-4 h-4" />
@@ -96,7 +95,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Logout */}
         <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors">
           <LogOut className="w-4 h-4" />
           Đăng xuất
