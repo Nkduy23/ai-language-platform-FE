@@ -1,7 +1,6 @@
-// Quiz question card
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import MultipleChoice from "./MultipleChoice";
 import FillBlank from "./FillBlank";
@@ -16,7 +15,6 @@ interface QuizCardProps {
   questionNumber: number;
   totalQuestions: number;
   onAnswer: (answer: string) => void;
-  // Sau khi submit — hiển thị kết quả
   correctAnswer?: string;
   explanation?: string;
   isCorrect?: boolean;
@@ -27,7 +25,13 @@ interface QuizCardProps {
 export default function QuizCard({ question, questionNumber, totalQuestions, onAnswer, correctAnswer, explanation, isCorrect, submitted, onNext }: QuizCardProps) {
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
+  // ✅ Fix bug 1 & 2: reset state mỗi khi câu hỏi thay đổi
+  useEffect(() => {
+    setSelectedAnswer("");
+  }, [question.id]);
+
   const handleSelect = (answer: string) => {
+    if (submitted) return;
     setSelectedAnswer(answer);
     if (question.type === "MULTIPLE_CHOICE") {
       onAnswer(answer);
@@ -35,7 +39,7 @@ export default function QuizCard({ question, questionNumber, totalQuestions, onA
   };
 
   const handleFillSubmit = () => {
-    if (selectedAnswer.trim()) onAnswer(selectedAnswer);
+    if (selectedAnswer.trim() && !submitted) onAnswer(selectedAnswer);
   };
 
   return (
@@ -74,9 +78,12 @@ export default function QuizCard({ question, questionNumber, totalQuestions, onA
         </div>
       )}
 
-      {question.type === "ARRANGE" && question.options && <ArrangeAnswer words={question.options} onAnswer={onAnswer} correctAnswer={submitted ? correctAnswer : undefined} submitted={submitted} />}
+      {question.type === "ARRANGE" && question.options && (
+        // ✅ Fix bug 2: key={question.id} để force re-mount khi đổi câu
+        <ArrangeAnswer key={question.id} words={question.options} onAnswer={onAnswer} correctAnswer={submitted ? correctAnswer : undefined} submitted={submitted} />
+      )}
 
-      {/* Explanation sau khi submit */}
+      {/* Explanation */}
       {submitted && explanation && (
         <div className={cn("p-4 rounded-xl border text-sm leading-relaxed", isCorrect ? "bg-green-50 border-green-200 text-green-800" : "bg-blue-50 border-blue-200 text-blue-800")}>
           <p className="font-medium mb-1">{isCorrect ? "✅ Chính xác!" : "💡 Giải thích"}</p>
@@ -84,7 +91,7 @@ export default function QuizCard({ question, questionNumber, totalQuestions, onA
         </div>
       )}
 
-      {/* Next button */}
+      {/* Next */}
       {submitted && onNext && (
         <div className="flex justify-end">
           <Button onClick={onNext} className="gap-2">
@@ -97,10 +104,11 @@ export default function QuizCard({ question, questionNumber, totalQuestions, onA
   );
 }
 
-// ─── Arrange component (inline) ───────────────────────────────────────────────
+// ─── Arrange (key prop từ parent sẽ force re-mount) ───────────────────────────
 function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: string[]; onAnswer: (answer: string) => void; correctAnswer?: string; submitted?: boolean }) {
+  // Shuffle words khi mount
   const [arranged, setArranged] = useState<string[]>([]);
-  const [remaining, setRemaining] = useState([...words]);
+  const [remaining, setRemaining] = useState(() => [...words].sort(() => Math.random() - 0.5));
 
   const addWord = (word: string, idx: number) => {
     if (submitted) return;
@@ -120,7 +128,7 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
     setRemaining([...remaining, word]);
   };
 
-  const isCorrect = submitted && arranged.join(" ").toLowerCase() === correctAnswer?.toLowerCase();
+  const isCorrect = submitted && correctAnswer && arranged.join(" ").toLowerCase() === correctAnswer.toLowerCase();
 
   return (
     <div className="space-y-4">
@@ -128,15 +136,21 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
       <div
         className={cn(
           "min-h-12 p-3 rounded-xl border-2 flex flex-wrap gap-2 transition-colors",
-          submitted && isCorrect ? "border-green-400 bg-green-50" : "border-slate-200 bg-slate-50",
-          submitted && !isCorrect ? "border-red-400 bg-red-50" : "",
+          !submitted && "border-slate-200 bg-slate-50",
+          submitted && isCorrect && "border-green-400 bg-green-50",
+          submitted && !isCorrect && correctAnswer && "border-red-400 bg-red-50",
         )}
       >
         {arranged.length === 0 ? (
-          <p className="text-slate-400 text-sm">Nhấn vào từ bên dưới để sắp xếp...</p>
+          <p className="text-slate-400 text-sm self-center">Nhấn vào từ bên dưới để sắp xếp...</p>
         ) : (
           arranged.map((word, i) => (
-            <button key={i} onClick={() => removeWord(i)} className="px-3 py-1.5 bg-brand text-white rounded-lg text-sm font-medium hover:bg-brand-dark transition-colors">
+            <button
+              key={i}
+              onClick={() => removeWord(i)}
+              disabled={submitted}
+              className="px-3 py-1.5 bg-brand text-white rounded-lg text-sm font-medium hover:bg-brand-dark transition-colors disabled:opacity-70"
+            >
               {word}
             </button>
           ))
@@ -144,18 +158,20 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
       </div>
 
       {/* Word bank */}
-      <div className="flex flex-wrap gap-2">
-        {remaining.map((word, i) => (
-          <button
-            key={i}
-            onClick={() => addWord(word, i)}
-            disabled={submitted}
-            className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:border-brand hover:text-brand transition-colors disabled:opacity-50"
-          >
-            {word}
-          </button>
-        ))}
-      </div>
+      {remaining.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {remaining.map((word, i) => (
+            <button
+              key={i}
+              onClick={() => addWord(word, i)}
+              disabled={submitted}
+              className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:border-brand hover:text-brand transition-colors disabled:opacity-50"
+            >
+              {word}
+            </button>
+          ))}
+        </div>
+      )}
 
       {submitted && !isCorrect && correctAnswer && (
         <div className="flex items-center gap-2 px-4 py-3 bg-green-50 rounded-xl border border-green-200">
