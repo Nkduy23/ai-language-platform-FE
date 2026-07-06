@@ -161,3 +161,142 @@ export interface ApiError {
   timestamp?: string;
   path?: string;
 }
+
+// ─── AI Chat ────────────────────────────────────────────────────────────────
+
+export interface ChatSession {
+  id: string;
+  topic: ChatTopic;
+  startedAt: string;
+  endedAt?: string;
+  msgCount: number;
+  language: Language;
+}
+
+export interface GrammarError {
+  original: string;
+  correction: string;
+  explanation: string;
+}
+
+export interface GrammarNote {
+  errors: GrammarError[];
+  suggestions: string[];
+  naturalAlternative: string | null;
+}
+
+export interface NewWord {
+  word: string;
+  meaningVi: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: "user" | "assistant" | "USER" | "ASSISTANT";
+  content: string;
+  grammarNote?: GrammarNote;
+  newWords?: NewWord[];
+  createdAt?: string;
+}
+
+export interface ChatUsage {
+  used: number;
+  limit: number;
+}
+
+export interface SendMessageResponse {
+  message: ChatMessage;
+  usage: ChatUsage | null;
+}
+
+// ─── AI Speaking ──────────────────────────────────────────────────────────────
+
+export interface SpeakingScores {
+  pronunciation: number;
+  grammar: number;
+  fluency: number;
+  vocabulary: number;
+}
+
+export interface SpeakingFeedback {
+  summary: string;
+  details: string[];
+  modelAudioUrl: string | null;
+}
+
+export interface SpeakingResult {
+  sessionId: string;
+  transcribed: string;
+  scores: SpeakingScores;
+  feedback: SpeakingFeedback;
+}
+
+// ─── Subscriptions (checkout) ─────────────────────────────────────────────────
+
+export type CheckoutGateway = "stripe" | "vnpay";
+
+export interface PlanInfo {
+  plan: Plan;
+  priceVnd: number;
+  features: string[];
+}
+
+export interface CheckoutResponse {
+  checkoutUrl: string;
+}
+
+// ─── Roadmap / Gamification ────────────────────────────────────────────────────
+
+export interface PlacementQuestion {
+  id: string;
+  level: CefrLevel;
+  type: string;
+  question: string;
+  options?: string[] | null;
+  audioUrl?: string | null;
+}
+
+export interface PlacementTestResult {
+  level: CefrLevel;
+  breakdown: Record<CefrLevel, { correct: number; total: number }>;
+}
+
+export interface RoadmapRecommendation {
+  currentLevel: CefrLevel;
+  weakestArea: string | null;
+  progressByType: Record<string, { count: number; avgScore: number; totalScore: number }>;
+  nextGrammarLesson: { id: string; title: string; level: CefrLevel } | null;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  displayName: string;
+  avatarUrl?: string | null;
+  totalXp: number;
+  streakDays: number;
+  learningLang: LanguageCode;
+}
+
+export interface BadgeItem {
+  id: string;
+  label: string;
+  icon: string;
+  achieved: boolean;
+}
+
+// ─── Blog ───────────────────────────────────────────────────────────────────
+
+export interface BlogPostSummary {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  coverImage?: string | null;
+  language: LanguageCode;
+  authorName: string;
+  publishedAt: string;
+}
+
+export interface BlogPostDetail extends BlogPostSummary {
+  content: string;
+}

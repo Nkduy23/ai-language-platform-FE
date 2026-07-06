@@ -7,6 +7,7 @@ export const ROUTES = {
   LEARN_CHINESE: "/marketing/chinese",
   LEARN_JAPANESE: "/marketing/japanese",
   BLOG: "/marketing/blog",
+  PRICING: "/pricing",
 
   DASHBOARD: "/dashboard/learn",
   LEARN: "/dashboard/learn",
@@ -46,4 +47,27 @@ export const API_ROUTES = {
   QUIZ_HISTORY: "/quiz/sessions",
   QUIZ_SESSION_DETAIL: (id: string) => `/quiz/sessions/${id}`,
   QUIZ_STATS: "/quiz/stats",
+
+  // AI Chat
+  CHAT_SESSIONS: "/ai-chat/sessions",
+  CHAT_MESSAGES: (sessionId: string) => `/ai-chat/sessions/${sessionId}/messages`,
+
+  // AI Speaking
+  SPEAKING_SESSIONS: "/ai-speaking/sessions",
+
+  // Subscriptions
+  SUBSCRIPTION_PLANS: "/subscriptions/plans",
+  SUBSCRIPTION_CURRENT: "/subscriptions/current",
+  SUBSCRIPTION_CHECKOUT: "/subscriptions/checkout",
+
+  // Roadmap
+  PLACEMENT_TEST_START: "/roadmap/placement-test/start",
+  PLACEMENT_TEST_SUBMIT: "/roadmap/placement-test/submit",
+  ROADMAP_RECOMMENDATIONS: "/roadmap/recommendations",
+  ROADMAP_LEADERBOARD: "/roadmap/leaderboard",
+  ROADMAP_BADGES: "/roadmap/badges",
+
+  // Content / Blog
+  BLOG_POSTS: "/content/blog",
+  BLOG_POST_DETAIL: (slug: string) => `/content/blog/${slug}`,
 } as const;
