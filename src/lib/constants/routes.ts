@@ -17,6 +17,7 @@ export const ROUTES = {
   SPEAKING: "/dashboard/speaking",
   ROADMAP: "/dashboard/roadmap",
   PROFILE: "/dashboard/profile",
+  COMMUNITY: "/community",
 } as const;
 
 export const API_ROUTES = {
@@ -70,4 +71,18 @@ export const API_ROUTES = {
   // Content / Blog
   BLOG_POSTS: "/content/blog",
   BLOG_POST_DETAIL: (slug: string) => `/content/blog/${slug}`,
+
+  // Community
+  COMMUNITY_QUESTIONS: "/community/questions",
+  COMMUNITY_QUESTION_DETAIL: (id: string) => `/community/questions/${id}`,
+  COMMUNITY_ANSWERS: (questionId: string) => `/community/questions/${questionId}/answers`,
+  COMMUNITY_LIKE_QUESTION: (id: string) => `/community/questions/${id}/like`,
+  COMMUNITY_LIKE_ANSWER: (id: string) => `/community/answers/${id}/like`,
+  COMMUNITY_BOOKMARK: (id: string) => `/community/questions/${id}/bookmark`,
+  COMMUNITY_ACCEPT_ANSWER: (id: string) => `/community/answers/${id}/accept`,
+
+  // Notifications
+  NOTIFICATIONS: "/notifications",
+  NOTIFICATION_READ: (id: string) => `/notifications/${id}/read`,
+  NOTIFICATIONS_READ_ALL: "/notifications/read-all",
 } as const;

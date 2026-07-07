@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, GraduationCap } from "lucide-react";
+import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, GraduationCap, Users } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { ROUTES } from "@/lib/constants/routes";
 import { useAuthStore } from "@/store/authStore";
@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: ROUTES.CHAT, label: "AI Chat", icon: MessageCircle },
   { href: ROUTES.SPEAKING, label: "Speaking", icon: Mic },
   { href: ROUTES.ROADMAP, label: "Lộ trình", icon: Map },
+  { href: ROUTES.COMMUNITY, label: "Cộng đồng", icon: Users },
   { href: ROUTES.PROFILE, label: "Hồ sơ", icon: User },
 ];
 
