@@ -55,7 +55,7 @@ export default function SpeakingPage() {
               <ScoreCard scores={result.scores} />
             </Card>
             <Card>
-              <FeedbackPanel result={result} />
+              <FeedbackPanel result={result} language={language} />
             </Card>
             <button onClick={reset} className="w-full text-sm text-center text-brand font-medium py-2 hover:underline">
               Luyện tiếp câu khác

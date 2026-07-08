@@ -1,18 +1,42 @@
 // Hiển thị transcript, nhận xét chi tiết, và nút phát lại câu mẫu chuẩn
+// Ưu tiên modelAudioUrl (Google Cloud TTS) nếu có; chưa cấu hình thì tự fallback sang Web Speech API (browser, miễn phí)
 import { useState } from "react";
 import { PlayCircle, Loader2, MessageSquareQuote } from "lucide-react";
 import Card from "@/components/ui/Card";
-import type { SpeakingResult } from "@/types";
+import type { SpeakingResult, LanguageCode } from "@/types";
 
-export default function FeedbackPanel({ result }: { result: SpeakingResult }) {
+const LOCALE_MAP: Record<LanguageCode, string> = {
+  EN: "en-US",
+  ZH: "zh-CN",
+  JA: "ja-JP",
+};
+
+export default function FeedbackPanel({ result, language }: { result: SpeakingResult; language: LanguageCode }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playModelAudio = () => {
-    if (!result.feedback.modelAudioUrl) return;
-    const audio = new Audio(result.feedback.modelAudioUrl);
-    setIsPlaying(true);
-    audio.play();
-    audio.onended = () => setIsPlaying(false);
+    if (isPlaying) return;
+
+    // Có Google TTS audio thật → phát file
+    if (result.feedback.modelAudioUrl) {
+      const audio = new Audio(result.feedback.modelAudioUrl);
+      setIsPlaying(true);
+      audio.play();
+      audio.onended = () => setIsPlaying(false);
+      return;
+    }
+
+    // Chưa cấu hình Google TTS → fallback Web Speech API (browser, miễn phí, không cần API key)
+    if (typeof window !== "undefined" && window.speechSynthesis && result.feedback.modelAnswer) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(result.feedback.modelAnswer);
+      utterance.lang = LOCALE_MAP[language];
+      utterance.rate = 0.9;
+      utterance.onstart = () => setIsPlaying(true);
+      utterance.onend = () => setIsPlaying(false);
+      utterance.onerror = () => setIsPlaying(false);
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   return (
@@ -37,7 +61,7 @@ export default function FeedbackPanel({ result }: { result: SpeakingResult }) {
         </ul>
       )}
 
-      {result.feedback.modelAudioUrl && (
+      {result.feedback.modelAnswer && (
         <button onClick={playModelAudio} disabled={isPlaying} className="flex items-center gap-2 text-sm text-brand font-medium hover:underline disabled:opacity-60">
           {isPlaying ? <Loader2 className="w-4 h-4 animate-spin" /> : <PlayCircle className="w-4 h-4" />}
           Nghe câu mẫu chuẩn

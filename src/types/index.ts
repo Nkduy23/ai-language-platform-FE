@@ -221,6 +221,7 @@ export interface SpeakingScores {
 export interface SpeakingFeedback {
   summary: string;
   details: string[];
+  modelAnswer: string;
   modelAudioUrl: string | null;
 }
 
@@ -299,4 +300,48 @@ export interface BlogPostSummary {
 
 export interface BlogPostDetail extends BlogPostSummary {
   content: string;
+}
+
+// ─── Community Q&A ────────────────────────────────────────────────────────────
+
+export interface CommunityAuthor {
+  profile: { displayName: string; avatarUrl?: string | null } | null;
+}
+
+export interface CommunityQuestionSummary {
+  id: string;
+  userId: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  language: Language;
+  user: CommunityAuthor;
+  _count: { answers: number; likes: number };
+}
+
+export interface CommunityAnswerItem {
+  id: string;
+  content: string;
+  isAccepted: boolean;
+  createdAt: string;
+  user: CommunityAuthor;
+  _count: { likes: number };
+}
+
+export interface CommunityQuestionDetail extends CommunityQuestionSummary {
+  answers: CommunityAnswerItem[];
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+export type NotificationType = "STREAK_REMINDER" | "WEEKLY_REPORT" | "COMMUNITY_ANSWER" | "COMMUNITY_LIKE" | "BADGE_EARNED" | "SYSTEM";
+
+export interface AppNotification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  link?: string | null;
+  isRead: boolean;
+  createdAt: string;
 }
