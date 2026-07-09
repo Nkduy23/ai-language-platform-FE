@@ -345,3 +345,21 @@ export interface AppNotification {
   isRead: boolean;
   createdAt: string;
 }
+
+// ─── Admin ────────────────────────────────────────────────────────────────────
+
+export interface AdminStats {
+  users: { total: number; newLast7Days: number; byPlan: Record<string, number> };
+  content: { vocabulary: number; grammar: number; quiz: number; blogPosts: { total: number; published: number } };
+  engagement: { communityQuestions: number; chatSessions: number; speakingSessions: number };
+}
+
+export interface AdminUserItem {
+  id: string;
+  email: string;
+  role: "USER" | "ADMIN";
+  isActive: boolean;
+  createdAt: string;
+  profile: { displayName: string; currentLevel: CefrLevel; totalXp: number; streakDays: number } | null;
+  subscription: { plan: Plan; status: string } | null;
+}
