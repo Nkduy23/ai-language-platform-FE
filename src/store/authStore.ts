@@ -1,3 +1,5 @@
+// authStore — chỉ lưu user object để hiển thị UI ngay (optimistic), KHÔNG lưu token nữa
+// Token nằm trong httpOnly cookie, JS không đọc/ghi được (đúng mục đích bảo mật)
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { AuthUser } from "@/types";
@@ -5,11 +7,11 @@ import type { AuthUser } from "@/types";
 interface AuthState {
   user: AuthUser | null;
   isAuthenticated: boolean;
+  authChecked: boolean; // đã gọi /auth/me để xác thực lại từ server chưa
 
-  setAuth: (user: AuthUser, accessToken: string, refreshToken: string) => void;
   setUser: (user: AuthUser) => void;
+  setAuthChecked: (checked: boolean) => void;
   logout: () => void;
-  getAccessToken: () => string | null;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -17,35 +19,22 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      authChecked: false,
 
-      setAuth: (user, accessToken, refreshToken) => {
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        set({ user, isAuthenticated: true });
-      },
+      setUser: (user) => set({ user, isAuthenticated: true }),
 
-      setUser: (user) => set({ user }),
+      setAuthChecked: (checked) => set({ authChecked: checked }),
 
       logout: () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        set({ user: null, isAuthenticated: false });
-      },
-
-      // Helper để lấy token hiện tại
-      getAccessToken: () => {
-        if (typeof window === "undefined") return null;
-        return localStorage.getItem("accessToken");
+        set({ user: null, isAuthenticated: false, authChecked: true });
       },
     }),
     {
       name: "auth-storage",
-      // Persist user + isAuthenticated
-      // Token vẫn lưu riêng trong localStorage qua setAuth
-      partialize: (state) => ({
-        user: state.user,
-        isAuthenticated: state.isAuthenticated,
-      }),
+      // Chỉ persist user để tránh flash "chưa đăng nhập" khi load lại trang.
+      // Đây là cache HIỂN THỊ tạm thời — mọi quyết định phân quyền thật đều
+      // phải dựa vào kết quả gọi /auth/me mới nhất (xem useAuthInit hook).
+      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     },
   ),
 );

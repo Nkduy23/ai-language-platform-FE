@@ -33,7 +33,7 @@ const PERKS = ["Flashcard thông minh với phát âm chuẩn", "Quiz theo cấp
 
 export default function RegisterPage() {
   const router = useRouter();
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const setUser = useAuthStore((s) => s.setUser);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -51,7 +51,7 @@ export default function RegisterPage() {
         password: data.password,
         displayName: data.displayName,
       });
-      setAuth(res.user, res.accessToken, res.refreshToken);
+      setUser(res.user);
       toast.success("Đăng ký thành công! Chào mừng bạn 🎉");
       router.push(ROUTES.DASHBOARD);
     } catch (err: any) {

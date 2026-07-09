@@ -24,7 +24,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const setAuth = useAuthStore((s) => s.setAuth);
+  const setUser = useAuthStore((s) => s.setUser);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -38,9 +38,9 @@ export default function LoginPage() {
   const onSubmit = async (data: FormData) => {
     try {
       const res = await authApi.login(data);
-      setAuth(res.user, res.accessToken, res.refreshToken);
+      setUser(res.user);
       toast.success(`Chào mừng trở lại, ${res.user.displayName}!`);
-      router.push(ROUTES.DASHBOARD);
+      router.push(res.user.role === "ADMIN" ? "/admin" : ROUTES.DASHBOARD);
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Đăng nhập thất bại";
       toast.error(Array.isArray(msg) ? msg[0] : msg);

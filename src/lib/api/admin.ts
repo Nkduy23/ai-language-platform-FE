@@ -24,14 +24,7 @@ export const adminApi = {
     return res.data;
   },
 
-  createBlogPost: async (data: {
-    title: string;
-    excerpt: string;
-    content: string;
-    language: string;
-    coverImage?: string;
-    isPublished?: boolean;
-  }) => {
+  createBlogPost: async (data: { title: string; excerpt: string; content: string; language: string; coverImage?: string; isPublished?: boolean }) => {
     const res = await apiClient.post("/content/blog", data);
     return res.data;
   },

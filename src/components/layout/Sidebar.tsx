@@ -6,6 +6,7 @@ import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, Gra
 import { cn } from "@/lib/utils/cn";
 import { ROUTES } from "@/lib/constants/routes";
 import { useAuthStore } from "@/store/authStore";
+import { authApi } from "@/lib/api/auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -25,7 +26,12 @@ export default function Sidebar() {
   const router = useRouter();
   const { user, logout } = useAuthStore();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await authApi.logout(); // BE xoá httpOnly cookie
+    } catch {
+      // Kể cả lỗi vẫn cứ logout ở FE để user không bị kẹt
+    }
     logout();
     toast.success("Đã đăng xuất");
     router.push(ROUTES.LOGIN);
