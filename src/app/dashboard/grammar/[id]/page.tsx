@@ -81,7 +81,7 @@ export default function GrammarDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
             <Badge level={lesson.level}>{lesson.level}</Badge>
             <span className="text-sm text-slate-400">
               {lesson.language.flag} {lesson.language.name}
@@ -93,43 +93,43 @@ export default function GrammarDetailPage() {
               </span>
             )}
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">{lesson.title}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">{lesson.title}</h1>
         </div>
       </div>
 
       {/* Content */}
       <Card className="mb-6">
-        <div className="prose prose-slate max-w-none">
+        <div className="prose prose-slate prose-sm sm:prose-base max-w-none">
           <MarkdownContent content={lesson.content} />
         </div>
       </Card>
 
       {/* Actions */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Prev */}
         {lesson.navigation?.prev ? (
-          <Link href={`/dashboard/grammar/${lesson.navigation.prev.id}`}>
-            <Button variant="outline" size="sm" className="gap-2">
+          <Link href={`/dashboard/grammar/${lesson.navigation.prev.id}`} className="w-full sm:w-auto">
+            <Button variant="outline" size="sm" className="gap-2 w-full sm:w-auto">
               <ArrowLeft className="w-4 h-4" />
               Bài trước
             </Button>
           </Link>
         ) : (
-          <div />
+          <div className="hidden sm:block" />
         )}
 
         {/* Complete + Next */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 order-first sm:order-none">
           {!isCompleted && (
-            <Button onClick={() => completeMutation.mutate()} loading={completeMutation.isPending} className="gap-2">
+            <Button onClick={() => completeMutation.mutate()} loading={completeMutation.isPending} className="gap-2 w-full sm:w-auto">
               <CheckCircle className="w-4 h-4" />
               Đánh dấu hoàn thành
             </Button>
           )}
 
           {lesson.navigation?.next && (
-            <Link href={`/dashboard/grammar/${lesson.navigation.next.id}`}>
-              <Button variant={isCompleted ? "primary" : "outline"} size="sm" className="gap-2">
+            <Link href={`/dashboard/grammar/${lesson.navigation.next.id}`} className="w-full sm:w-auto">
+              <Button variant={isCompleted ? "primary" : "outline"} size="sm" className="gap-2 w-full sm:w-auto">
                 Bài tiếp theo
                 <ArrowRight className="w-4 h-4" />
               </Button>

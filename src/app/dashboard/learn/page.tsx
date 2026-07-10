@@ -67,7 +67,7 @@ export default function LearnPage() {
     <DashboardLayout title="Từ vựng" description="Học từ vựng với hệ thống Flashcard thông minh">
       {/* Stats bar */}
       {stats && (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {[
             { label: "Tổng từ", value: stats.totalCards, color: "text-slate-900" },
             { label: "Đã học", value: stats.learned, color: "text-green-600" },
@@ -76,7 +76,7 @@ export default function LearnPage() {
           ].map((item) => (
             <Card key={item.label} padding="sm">
               <p className="text-xs text-slate-500 mb-1">{item.label}</p>
-              <p className={`text-xl font-bold ${item.color}`}>{item.value}</p>
+              <p className={`text-lg sm:text-xl font-bold ${item.color}`}>{item.value}</p>
             </Card>
           ))}
         </div>
@@ -85,12 +85,12 @@ export default function LearnPage() {
       {/* Session đang chạy */}
       {sessionState === "running" && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-brand" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h2 className="font-semibold text-slate-900 flex items-center gap-2 text-sm sm:text-base">
+              <BookOpen className="w-5 h-5 text-brand flex-shrink-0" />
               Đang học — {LANGUAGES[selectedLang].flag} {LANGUAGES[selectedLang].name}
             </h2>
-            <Button variant="ghost" size="sm" onClick={handleRestart}>
+            <Button variant="ghost" size="sm" onClick={handleRestart} className="self-start sm:self-auto">
               <RotateCcw className="w-4 h-4 mr-1.5" />
               Thoát
             </Button>
@@ -108,11 +108,11 @@ export default function LearnPage() {
               <h2 className="font-semibold text-slate-900">Tùy chọn học</h2>
             </div>
 
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Ngôn ngữ */}
               <div>
                 <p className="text-sm font-medium text-slate-700 mb-2">Ngôn ngữ</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
                     <button
                       key={code}
@@ -131,7 +131,7 @@ export default function LearnPage() {
               {/* Số từ */}
               <div>
                 <p className="text-sm font-medium text-slate-700 mb-2">Số từ mỗi lần</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {[5, 10, 20].map((n) => (
                     <button
                       key={n}
@@ -208,7 +208,7 @@ export default function LearnPage() {
           </Card>
 
           {/* Quick stats by language */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
               <Card
                 key={code}

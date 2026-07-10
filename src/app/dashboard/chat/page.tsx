@@ -24,12 +24,12 @@ export default function ChatPage() {
         <Card className="max-w-lg mx-auto space-y-5">
           <div>
             <p className="text-sm font-medium text-slate-700 mb-2">Chọn ngôn ngữ</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {Object.entries(LANGUAGES).map(([code, info]) => (
                 <button
                   key={code}
                   onClick={() => setLanguage(code as LanguageCode)}
-                  className={`flex-1 rounded-lg border px-3 py-2 text-sm ${language === code ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600"}`}
+                  className={`flex-1 min-w-[100px] rounded-lg border px-3 py-2 text-sm ${language === code ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600"}`}
                 >
                   {info.flag} {info.name}
                 </button>
@@ -39,7 +39,7 @@ export default function ChatPage() {
 
           <div>
             <p className="text-sm font-medium text-slate-700 mb-2">Chọn chủ đề</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {CHAT_TOPICS.map((t) => (
                 <button
                   key={t.value}
@@ -62,7 +62,7 @@ export default function ChatPage() {
 
   return (
     <DashboardLayout title="AI Chat" description="Hội thoại với AI như người bản ngữ">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 h-[calc(100vh-220px)]">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 h-[calc(100vh-260px)] lg:h-[calc(100vh-220px)]">
         <ChatWindow messages={messages} onSend={(content) => sendMessage(content)} onSelectMessage={setSelectedMessage} selectedMessageId={selectedMessage?.id} isSending={isSending} usage={usage} />
         <GrammarSidebar message={selectedMessage} />
       </div>

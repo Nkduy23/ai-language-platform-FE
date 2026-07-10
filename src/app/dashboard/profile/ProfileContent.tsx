@@ -32,29 +32,29 @@ export default function ProfilePage() {
   return (
     <DashboardLayout title="Hồ sơ" description="Thông tin tài khoản và tiến trình">
       <div className="max-w-2xl mx-auto space-y-4">
-        <Card className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-brand/10 flex items-center justify-center">
-            <User className="w-7 h-7 text-brand" />
+        <Card className="flex items-center gap-3 sm:gap-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-brand/10 flex items-center justify-center flex-shrink-0">
+            <User className="w-6 h-6 sm:w-7 sm:h-7 text-brand" />
           </div>
-          <div className="flex-1">
-            <p className="font-semibold text-slate-900">{user?.displayName ?? user?.email}</p>
-            <p className="text-sm text-slate-500">{user?.email}</p>
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-slate-900 truncate">{user?.displayName ?? user?.email}</p>
+            <p className="text-xs sm:text-sm text-slate-500 truncate">{user?.email}</p>
           </div>
           <Badge variant={plan === "FREE" ? "default" : "success"}>{plan}</Badge>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="flex items-center gap-3">
-            <Flame className="w-6 h-6 text-orange-500" />
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <Card className="flex items-center gap-2 sm:gap-3">
+            <Flame className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 flex-shrink-0" />
             <div>
-              <p className="text-xl font-bold text-slate-900">{streak?.streakDays ?? 0}</p>
+              <p className="text-lg sm:text-xl font-bold text-slate-900">{streak?.streakDays ?? 0}</p>
               <p className="text-xs text-slate-500">Ngày streak</p>
             </div>
           </Card>
-          <Card className="flex items-center gap-3">
-            <Award className="w-6 h-6 text-purple-500" />
+          <Card className="flex items-center gap-2 sm:gap-3">
+            <Award className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500 flex-shrink-0" />
             <div>
-              <p className="text-xl font-bold text-slate-900">{streak?.totalXp ?? 0}</p>
+              <p className="text-lg sm:text-xl font-bold text-slate-900">{streak?.totalXp ?? 0}</p>
               <p className="text-xs text-slate-500">Tổng XP</p>
             </div>
           </Card>

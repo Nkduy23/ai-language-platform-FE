@@ -127,7 +127,7 @@ export default function QuizPage() {
     <DashboardLayout title="Quiz" description="Luyện tập với các dạng câu hỏi đa dạng">
       {/* Stats */}
       {stats && pageState === "idle" && (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {[
             { label: "Đã làm", value: stats.totalSessions, icon: Brain, color: "text-brand" },
             { label: "Điểm TB", value: `${stats.avgScore}%`, icon: Target, color: "text-green-600" },
@@ -136,7 +136,7 @@ export default function QuizPage() {
           ].map((item) => (
             <Card key={item.label} padding="sm">
               <p className="text-xs text-slate-500 mb-1">{item.label}</p>
-              <p className={`text-xl font-bold ${item.color}`}>{item.value}</p>
+              <p className={`text-lg sm:text-xl font-bold ${item.color}`}>{item.value}</p>
             </Card>
           ))}
         </div>
@@ -150,11 +150,11 @@ export default function QuizPage() {
             <h2 className="font-semibold text-slate-900">Tùy chọn Quiz</h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Ngôn ngữ */}
             <div>
               <p className="text-sm font-medium text-slate-700 mb-2">Ngôn ngữ</p>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
                   <button
                     key={code}
@@ -173,7 +173,7 @@ export default function QuizPage() {
             {/* Số câu hỏi */}
             <div>
               <p className="text-sm font-medium text-slate-700 mb-2">Số câu hỏi</p>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {[5, 10, 20].map((n) => (
                   <button
                     key={n}
@@ -189,7 +189,7 @@ export default function QuizPage() {
             </div>
 
             {/* Cấp độ */}
-            <div className="col-span-2">
+            <div className="col-span-1 sm:col-span-2">
               <p className="text-sm font-medium text-slate-700 mb-2">Cấp độ</p>
               <div className="flex flex-wrap gap-2">
                 <button

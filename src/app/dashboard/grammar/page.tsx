@@ -49,9 +49,9 @@ export default function GrammarPage() {
   return (
     <DashboardLayout title="Ngữ pháp" description="Học ngữ pháp theo cấp độ CEFR từ A1 đến C2">
       {/* Filter */}
-      <div className="flex items-center gap-6 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
         {/* Ngôn ngữ */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
             <button
               key={code}
@@ -66,10 +66,10 @@ export default function GrammarPage() {
           ))}
         </div>
 
-        <div className="w-px h-6 bg-slate-200" />
+        <div className="hidden sm:block w-px h-6 bg-slate-200" />
 
         {/* Cấp độ filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setSelectedLevel("")}
             className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${

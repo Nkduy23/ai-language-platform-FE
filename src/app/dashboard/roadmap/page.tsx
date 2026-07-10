@@ -149,12 +149,12 @@ export default function RoadmapPage() {
             </h3>
             <div className="space-y-2">
               {leaderboard.map((entry) => (
-                <div key={entry.rank} className="flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-2">
-                    <span className="w-5 text-slate-400 font-medium">#{entry.rank}</span>
-                    {entry.displayName}
+                <div key={entry.rank} className="flex items-center justify-between gap-3 text-sm">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <span className="w-5 text-slate-400 font-medium flex-shrink-0">#{entry.rank}</span>
+                    <span className="truncate">{entry.displayName}</span>
                   </span>
-                  <span className="font-semibold text-brand">{entry.totalXp} XP</span>
+                  <span className="font-semibold text-brand flex-shrink-0">{entry.totalXp} XP</span>
                 </div>
               ))}
             </div>
