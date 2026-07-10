@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, Brain, MessageCircle, Mic, CheckCircle, Zap } from "lucide-react";
 import type { Metadata } from "next";
+import { contentApi } from "@/lib/api/content";
 
 export const metadata: Metadata = {
   title: "AI Language Platform — Học Tiếng Anh, Trung, Nhật Cùng AI",
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
     url: "https://ailanguage.com",
   },
 };
+
+export const revalidate = 3600; // ISR — cập nhật blog mỗi giờ
 
 const FEATURES = [
   {
@@ -47,7 +50,17 @@ const LANGUAGES = [
 
 const PERKS = ["Miễn phí hoàn toàn để bắt đầu", "Không cần thẻ tín dụng", "Học mọi lúc, mọi nơi", "Theo dõi tiến trình chi tiết"];
 
-export default function HomePage() {
+const BLOG_PREVIEW_COUNT = 4;
+
+export default async function HomePage() {
+  let posts: Awaited<ReturnType<typeof contentApi.listBlogPosts>>["data"] = [];
+  try {
+    const res = await contentApi.listBlogPosts();
+    posts = res.data.slice(0, BLOG_PREVIEW_COUNT);
+  } catch {
+    posts = [];
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navbar */}
@@ -152,6 +165,46 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Blog */}
+      {posts.length > 0 && (
+        <section className="bg-slate-50 py-12 sm:py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between mb-8 sm:mb-10 gap-4">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Blog học ngoại ngữ</h2>
+                <p className="text-sm sm:text-base text-slate-500 mt-1">Mẹo học tiếng Anh, Trung, Nhật hiệu quả cùng AI</p>
+              </div>
+              <Link href="/marketing/blog" className="hidden sm:inline-flex items-center gap-1.5 text-brand text-sm font-medium whitespace-nowrap hover:underline">
+                Xem tất cả <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              {posts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/marketing/blog/${post.slug}`}
+                  className="block bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 hover:border-brand hover:shadow-lg transition-all duration-200"
+                >
+                  <span className="text-xs text-brand font-medium">{post.language}</span>
+                  <h3 className="font-semibold text-slate-900 mt-1 mb-2 text-sm sm:text-base line-clamp-2">{post.title}</h3>
+                  <p className="text-xs sm:text-sm text-slate-500 line-clamp-2">{post.excerpt}</p>
+                  <p className="text-xs text-slate-400 mt-3">
+                    {new Date(post.publishedAt).toLocaleDateString("vi-VN")} · {post.authorName}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex justify-center sm:hidden mt-8">
+              <Link href="/marketing/blog" className="inline-flex items-center gap-1.5 text-brand text-sm font-medium hover:underline">
+                Xem tất cả <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="bg-brand py-12 sm:py-16 text-center">
