@@ -27,43 +27,46 @@ export default function EnglishPage() {
     <div className="min-h-screen bg-white">
       {/* Nav */}
       <nav className="border-b border-slate-100 sticky top-0 bg-white/80 backdrop-blur z-40">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-sm">🌐</span>
             </div>
-            <span className="font-bold text-slate-900 text-sm">AI Language</span>
+            <span className="font-bold text-slate-900 text-sm truncate">AI Language</span>
           </Link>
-          <Link href="/auth/register" className="text-sm bg-brand text-white font-medium px-4 py-2 rounded-lg hover:bg-brand-dark transition-colors">
+          <Link href="/auth/register" className="text-xs sm:text-sm bg-brand text-white font-medium px-3 sm:px-4 py-2 rounded-lg hover:bg-brand-dark transition-colors whitespace-nowrap flex-shrink-0">
             Bắt đầu miễn phí
           </Link>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 pt-16 pb-12">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-4xl">🇺🇸</span>
-          <span className="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Tiếng Anh · English</span>
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-10 sm:pb-12">
+        <div className="flex items-center gap-3 mb-5 sm:mb-6">
+          <span className="text-3xl sm:text-4xl">🇺🇸</span>
+          <span className="text-xs sm:text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Tiếng Anh · English</span>
         </div>
-        <h1 className="text-4xl font-bold text-slate-900 mb-4 leading-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4 leading-tight">
           Học Tiếng Anh Online
           <br />
           <span className="text-brand">Cùng AI Thông Minh</span>
         </h1>
-        <p className="text-lg text-slate-500 mb-8 max-w-2xl">
+        <p className="text-base sm:text-lg text-slate-500 mb-6 sm:mb-8 max-w-2xl">
           Từ A1 đến C2, luyện tập hội thoại thực tế với AI như đang nói chuyện với người bản ngữ. Flashcard thông minh, Quiz đa dạng, phát âm chuẩn.
         </p>
-        <Link href="/auth/register" className="inline-flex items-center gap-2 bg-brand text-white font-semibold px-6 py-3 rounded-xl hover:bg-brand-dark transition-colors">
+        <Link
+          href="/auth/register"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand text-white font-semibold px-6 py-3 rounded-xl hover:bg-brand-dark transition-colors"
+        >
           Học tiếng Anh miễn phí <ArrowRight className="w-4 h-4" />
         </Link>
       </section>
 
       {/* Levels */}
-      <section className="bg-slate-50 py-12">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">Phù hợp mọi trình độ</h2>
-          <div className="grid grid-cols-3 gap-4">
+      <section className="bg-slate-50 py-10 sm:py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5 sm:mb-6">Phù hợp mọi trình độ</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {LEVELS.map((l) => (
               <div key={l.level} className="bg-white rounded-xl border border-slate-200 p-5">
                 <div className="text-brand font-bold text-lg mb-1">{l.level}</div>
@@ -76,12 +79,12 @@ export default function EnglishPage() {
       </section>
 
       {/* Topics */}
-      <section className="max-w-5xl mx-auto px-6 py-12">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">Chủ đề học đa dạng</h2>
-        <div className="flex flex-wrap gap-3">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5 sm:mb-6">Chủ đề học đa dạng</h2>
+        <div className="flex flex-wrap gap-2.5 sm:gap-3">
           {TOPICS.map((t) => (
-            <span key={t} className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-brand rounded-full text-sm font-medium">
-              <CheckCircle className="w-4 h-4" />
+            <span key={t} className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-50 text-brand rounded-full text-xs sm:text-sm font-medium">
+              <CheckCircle className="w-4 h-4 flex-shrink-0" />
               {t}
             </span>
           ))}
@@ -89,10 +92,10 @@ export default function EnglishPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-brand py-12 text-center">
-        <h2 className="text-2xl font-bold text-white mb-3">Bắt đầu học tiếng Anh ngay</h2>
-        <p className="text-blue-200 mb-6">Miễn phí · Không cần thẻ tín dụng</p>
-        <Link href="/auth/register" className="inline-flex items-center gap-2 bg-white text-brand font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors">
+      <section className="bg-brand py-10 sm:py-12 text-center px-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Bắt đầu học tiếng Anh ngay</h2>
+        <p className="text-sm sm:text-base text-blue-200 mb-6">Miễn phí · Không cần thẻ tín dụng</p>
+        <Link href="/auth/register" className="inline-flex items-center gap-2 bg-white text-brand font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors text-sm sm:text-base">
           Đăng ký miễn phí <ArrowRight className="w-4 h-4" />
         </Link>
       </section>

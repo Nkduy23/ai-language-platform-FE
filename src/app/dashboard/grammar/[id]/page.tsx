@@ -144,76 +144,99 @@ export default function GrammarDetailPage() {
 // ─── Simple markdown renderer ─────────────────────────────────────────────────
 function MarkdownContent({ content }: { content: string }) {
   const lines = content.split("\n");
+  const blocks: React.ReactNode[] = [];
 
-  return (
-    <div className="space-y-3 text-sm leading-relaxed text-slate-700">
-      {lines.map((line, i) => {
-        // H1
-        if (line.startsWith("# ")) {
-          return (
-            <h2 key={i} className="text-xl font-bold text-slate-900 mt-6 mb-3">
-              {line.slice(2)}
-            </h2>
-          );
-        }
-        // H2
-        if (line.startsWith("## ")) {
-          return (
-            <h3 key={i} className="text-base font-semibold text-slate-800 mt-5 mb-2">
-              {line.slice(3)}
-            </h3>
-          );
-        }
-        // H3
-        if (line.startsWith("### ")) {
-          return (
-            <h4 key={i} className="text-sm font-semibold text-slate-700 mt-4 mb-1">
-              {line.slice(4)}
-            </h4>
-          );
-        }
-        // Table row
-        if (line.startsWith("|")) {
-          return <TableRow key={i} line={line} />;
-        }
-        // Blockquote
-        if (line.startsWith(">")) {
-          return (
-            <blockquote key={i} className="border-l-4 border-brand pl-4 py-1 bg-blue-50 rounded-r-lg italic text-slate-600">
-              {renderInline(line.slice(1).trim())}
-            </blockquote>
-          );
-        }
-        // Code block marker — skip
-        if (line.startsWith("```")) return null;
-        // Empty line
-        if (line.trim() === "") return <div key={i} className="h-2" />;
-        // Normal paragraph
-        return <p key={i}>{renderInline(line)}</p>;
-      })}
-    </div>
-  );
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Gom TOÀN BỘ khối bảng liên tiếp (mọi dòng bắt đầu bằng "|") thành 1 table duy nhất,
+    // thay vì tạo 1 <table> riêng cho từng dòng (bug cũ khiến cột lệch nhau).
+    if (line.startsWith("|")) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].startsWith("|")) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      blocks.push(<MarkdownTable key={`table-${i}`} lines={tableLines} />);
+      continue;
+    }
+
+    if (line.startsWith("# ")) {
+      blocks.push(
+        <h2 key={i} className="text-xl font-bold text-slate-900 mt-6 mb-3">
+          {line.slice(2)}
+        </h2>,
+      );
+    } else if (line.startsWith("## ")) {
+      blocks.push(
+        <h3 key={i} className="text-base font-semibold text-slate-800 mt-5 mb-2">
+          {line.slice(3)}
+        </h3>,
+      );
+    } else if (line.startsWith("### ")) {
+      blocks.push(
+        <h4 key={i} className="text-sm font-semibold text-slate-700 mt-4 mb-1">
+          {line.slice(4)}
+        </h4>,
+      );
+    } else if (line.startsWith(">")) {
+      blocks.push(
+        <blockquote key={i} className="border-l-4 border-brand pl-4 py-1 bg-blue-50 rounded-r-lg italic text-slate-600">
+          {renderInline(line.slice(1).trim())}
+        </blockquote>,
+      );
+    } else if (line.startsWith("```")) {
+      // Code block marker — skip
+    } else if (line.trim() === "") {
+      blocks.push(<div key={i} className="h-2" />);
+    } else {
+      blocks.push(<p key={i}>{renderInline(line)}</p>);
+    }
+    i++;
+  }
+
+  return <div className="space-y-3 text-sm leading-relaxed text-slate-700">{blocks}</div>;
 }
 
-function TableRow({ line }: { line: string }) {
-  const cells = line
-    .split("|")
-    .filter(Boolean)
-    .map((c) => c.trim());
-  if (cells.every((c) => c.match(/^[-:]+$/))) return null; // separator row
-  const isHeader = line.includes("---"); // heuristic
+// Render 1 khối bảng markdown hoàn chỉnh (header + separator + data rows) thành 1 <table> duy nhất
+function MarkdownTable({ lines }: { lines: string[] }) {
+  const parseCells = (line: string) =>
+    line
+      .split("|")
+      .filter((_, idx, arr) => idx !== 0 && idx !== arr.length - 1) // bỏ phần tử rỗng đầu/cuối do split theo "|"
+      .map((c) => c.trim());
+
+  const isSeparator = (line: string) => /^\|[\s:|-]+\|$/.test(line.trim());
+
+  const headerLine = lines[0];
+  const bodyLines = lines.slice(1).filter((l) => !isSeparator(l));
+
+  const headerCells = parseCells(headerLine);
+  const bodyRows = bodyLines.map(parseCells);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto my-3">
       <table className="w-full text-sm border-collapse">
-        <tbody>
+        <thead>
           <tr>
-            {cells.map((cell, i) => (
-              <td key={i} className="border border-slate-200 px-3 py-2 text-left">
+            {headerCells.map((cell, i) => (
+              <th key={i} className="border border-slate-200 bg-slate-50 px-3 py-2 text-left font-semibold text-slate-700">
                 {renderInline(cell)}
-              </td>
+              </th>
             ))}
           </tr>
+        </thead>
+        <tbody>
+          {bodyRows.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((cell, ci) => (
+                <td key={ci} className="border border-slate-200 px-3 py-2 text-left">
+                  {renderInline(cell)}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
