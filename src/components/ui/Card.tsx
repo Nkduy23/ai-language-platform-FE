@@ -10,7 +10,7 @@ interface CardProps {
 }
 
 export default function Card({ children, className, hover, padding = "md", onClick }: CardProps) {
-  const paddings = { none: "", sm: "p-4", md: "p-6", lg: "p-8" };
+  const paddings = { none: "", sm: "p-3 sm:p-4", md: "p-4 sm:p-6", lg: "p-5 sm:p-8" };
 
   return (
     <div

@@ -11,14 +11,14 @@ interface Props {
 
 export default function LanguageSelector({ value, onChange, className }: Props) {
   return (
-    <div className={cn("flex gap-2", className)}>
+    <div className={cn("flex flex-wrap gap-2", className)}>
       {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
         <button
           key={code}
           type="button"
           onClick={() => onChange(code)}
           className={cn(
-            "flex-1 rounded-lg border px-3 py-2 text-sm transition-colors",
+            "flex-1 min-w-[100px] rounded-lg border px-3 py-2 text-sm transition-colors",
             value === code ? "border-brand bg-brand/5 text-brand font-medium" : "border-surface-border text-slate-600 hover:border-slate-300",
           )}
         >

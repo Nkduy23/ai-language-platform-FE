@@ -93,17 +93,17 @@ export default function FlashcardSession({ cards, onComplete, onRestart }: Flash
         <h2 className="text-xl font-bold text-slate-900 mb-1">Hoàn thành!</h2>
         <p className="text-slate-500 text-sm mb-6">Bạn đã học {stats.total} từ</p>
 
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-green-50 rounded-xl p-4">
-            <p className="text-2xl font-bold text-green-600">{stats.know}</p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
+          <div className="bg-green-50 rounded-xl p-2.5 sm:p-4">
+            <p className="text-lg sm:text-2xl font-bold text-green-600">{stats.know}</p>
             <p className="text-xs text-green-500 mt-1">Đã biết</p>
           </div>
-          <div className="bg-yellow-50 rounded-xl p-4">
-            <p className="text-2xl font-bold text-yellow-600">{stats.hard}</p>
+          <div className="bg-yellow-50 rounded-xl p-2.5 sm:p-4">
+            <p className="text-lg sm:text-2xl font-bold text-yellow-600">{stats.hard}</p>
             <p className="text-xs text-yellow-500 mt-1">Còn khó</p>
           </div>
-          <div className="bg-red-50 rounded-xl p-4">
-            <p className="text-2xl font-bold text-red-600">{stats.dontknow}</p>
+          <div className="bg-red-50 rounded-xl p-2.5 sm:p-4">
+            <p className="text-lg sm:text-2xl font-bold text-red-600">{stats.dontknow}</p>
             <p className="text-xs text-red-500 mt-1">Chưa biết</p>
           </div>
         </div>
@@ -138,32 +138,32 @@ export default function FlashcardSession({ cards, onComplete, onRestart }: Flash
       <FlashcardView card={currentCard} isFavorited={favoritedIds.has(currentCard.id)} onToggleFavorite={handleToggleFavorite} />
 
       {/* Action buttons */}
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-center gap-2 sm:gap-3">
         <button
           onClick={() => handleResult("dontknow")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-6 py-3 rounded-xl border-2 transition-all", "border-red-200 hover:border-red-400 hover:bg-red-50 disabled:opacity-50")}
+          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-red-200 hover:border-red-400 hover:bg-red-50 disabled:opacity-50")}
         >
-          <XCircle className="w-6 h-6 text-red-400" />
-          <span className="text-xs font-medium text-red-400">Chưa biết</span>
+          <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
+          <span className="text-xs font-medium text-red-400 whitespace-nowrap">Chưa biết</span>
         </button>
 
         <button
           onClick={() => handleResult("hard")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-6 py-3 rounded-xl border-2 transition-all", "border-yellow-200 hover:border-yellow-400 hover:bg-yellow-50 disabled:opacity-50")}
+          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-yellow-200 hover:border-yellow-400 hover:bg-yellow-50 disabled:opacity-50")}
         >
-          <AlertCircle className="w-6 h-6 text-yellow-400" />
-          <span className="text-xs font-medium text-yellow-500">Còn khó</span>
+          <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" />
+          <span className="text-xs font-medium text-yellow-500 whitespace-nowrap">Còn khó</span>
         </button>
 
         <button
           onClick={() => handleResult("know")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-6 py-3 rounded-xl border-2 transition-all", "border-green-200 hover:border-green-400 hover:bg-green-50 disabled:opacity-50")}
+          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-green-200 hover:border-green-400 hover:bg-green-50 disabled:opacity-50")}
         >
-          <CheckCircle className="w-6 h-6 text-green-400" />
-          <span className="text-xs font-medium text-green-500">Đã biết</span>
+          <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
+          <span className="text-xs font-medium text-green-500 whitespace-nowrap">Đã biết</span>
         </button>
       </div>
 

@@ -31,14 +31,14 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
     <div className="flashcard-container w-full max-w-lg mx-auto" style={{ height: 320 }}>
       <div className={cn("flashcard-inner w-full h-full cursor-pointer", flipped && "flipped")} onClick={() => setFlipped(!flipped)}>
         {/* Front — chỉ hiện từ */}
-        <div className="flashcard-front absolute inset-0 bg-white rounded-2xl border border-slate-200 shadow-card flex flex-col items-center justify-center p-8 select-none">
+        <div className="flashcard-front absolute inset-0 bg-white rounded-2xl border border-slate-200 shadow-card flex flex-col items-center justify-center p-5 sm:p-8 select-none">
           <Badge level={card.level} className="mb-4">
             {card.level}
           </Badge>
 
-          <p className="text-4xl font-bold text-slate-900 text-center mb-3">{card.word}</p>
+          <p className="text-3xl sm:text-4xl font-bold text-slate-900 text-center mb-3 break-words">{card.word}</p>
 
-          {card.pronunciation && <p className="text-slate-400 text-base font-mono">{card.pronunciation}</p>}
+          {card.pronunciation && <p className="text-slate-400 text-sm sm:text-base font-mono">{card.pronunciation}</p>}
 
           <div className="flex items-center gap-3 mt-6">
             <button
@@ -46,7 +46,7 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
                 e.stopPropagation();
                 speak();
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-brand rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-50 text-brand rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
             >
               <Volume2 className="w-4 h-4" />
               Phát âm
@@ -69,15 +69,15 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
         </div>
 
         {/* Back — nghĩa + ví dụ */}
-        <div className="flashcard-back absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-card flex flex-col justify-between p-8 select-none">
+        <div className="flashcard-back absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-card flex flex-col justify-between p-5 sm:p-8 select-none">
           <div>
             <p className="text-blue-200 text-sm font-medium mb-1">Nghĩa</p>
-            <p className="text-white text-2xl font-bold">{card.meaningVi}</p>
+            <p className="text-white text-xl sm:text-2xl font-bold break-words">{card.meaningVi}</p>
             {card.meaningEn && <p className="text-blue-200 text-sm mt-1 italic">{card.meaningEn}</p>}
           </div>
 
           {card.exampleSentence && (
-            <div className="bg-white/10 rounded-xl p-4">
+            <div className="bg-white/10 rounded-xl p-3 sm:p-4">
               <p className="text-blue-200 text-xs font-medium mb-1">Ví dụ</p>
               <p className="text-white text-sm leading-relaxed">{card.exampleSentence}</p>
             </div>

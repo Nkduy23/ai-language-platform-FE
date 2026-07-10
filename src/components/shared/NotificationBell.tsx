@@ -45,7 +45,7 @@ export default function NotificationBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl border border-surface-border shadow-lg z-40 max-h-96 overflow-y-auto">
+          <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] max-w-80 bg-white rounded-xl border border-surface-border shadow-lg z-40 max-h-96 overflow-y-auto">
             <div className="flex items-center justify-between px-4 py-2.5 border-b border-surface-border">
               <span className="text-sm font-semibold text-slate-700">Thông báo</span>
               {unreadCount > 0 && (

@@ -67,7 +67,7 @@ export default function UpgradePrompt({ open, onClose, reason }: Props) {
         })}
       </div>
 
-      <div className="flex gap-2 mb-5">
+      <div className="flex flex-col sm:flex-row gap-2 mb-5">
         <button
           onClick={() => setGateway("stripe")}
           className={cn("flex-1 rounded-lg border px-3 py-2 text-sm", gateway === "stripe" ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600")}

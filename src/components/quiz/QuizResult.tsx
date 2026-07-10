@@ -23,7 +23,7 @@ export default function QuizResult({ result, onRestart }: QuizResultProps) {
           <Trophy className="w-8 h-8 text-yellow-500" />
         </div>
 
-        <p className={cn("text-5xl font-bold mb-2", getGradeColor(accuracy))}>{accuracy}%</p>
+        <p className={cn("text-4xl sm:text-5xl font-bold mb-2", getGradeColor(accuracy))}>{accuracy}%</p>
         <p className="text-slate-500 text-sm mb-1">{result.grade}</p>
         <p className="text-slate-400 text-xs">
           {result.correct} / {result.total} câu đúng
