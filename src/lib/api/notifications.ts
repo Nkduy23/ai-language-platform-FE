@@ -19,3 +19,21 @@ export const notificationsApi = {
     return res.data;
   },
 };
+
+// Web Push — đăng ký/huỷ nhận thông báo đẩy trên trình duyệt
+export const pushApi = {
+  getVapidPublicKey: async () => {
+    const res = await apiClient.get<{ publicKey: string | null }>("/notifications/push/vapid-public-key");
+    return res.data;
+  },
+
+  subscribe: async (subscription: PushSubscriptionJSON) => {
+    const res = await apiClient.post("/notifications/push/subscribe", subscription);
+    return res.data;
+  },
+
+  unsubscribe: async (endpoint: string) => {
+    const res = await apiClient.delete("/notifications/push/subscribe", { data: { endpoint } });
+    return res.data;
+  },
+};

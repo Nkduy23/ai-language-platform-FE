@@ -13,6 +13,15 @@ export const usersApi = {
     return res.data;
   },
 
+  uploadAvatar: async (file: File) => {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    const res = await apiClient.post("/users/me/avatar", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return res.data;
+  },
+
   getProgress: async () => {
     const res = await apiClient.get("/users/me/progress");
     return res.data;
