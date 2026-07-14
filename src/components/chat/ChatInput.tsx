@@ -34,7 +34,7 @@ export default function ChatInput({ onSend, disabled }: Props) {
         disabled={disabled}
         rows={1}
         placeholder="Nhập tin nhắn... (Enter để gửi)"
-        className="flex-1 resize-none rounded-lg border border-surface-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand disabled:opacity-50"
+        className="flex-1 resize-none bg-postcard rounded-md border-[1.5px] border-surface-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-airmail disabled:opacity-50"
       />
       <Button onClick={handleSend} disabled={disabled || !value.trim()} size="md">
         <Send className="w-4 h-4" />

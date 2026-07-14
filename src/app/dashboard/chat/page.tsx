@@ -29,7 +29,7 @@ export default function ChatPage() {
                 <button
                   key={code}
                   onClick={() => setLanguage(code as LanguageCode)}
-                  className={`flex-1 min-w-[100px] rounded-lg border px-3 py-2 text-sm ${language === code ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600"}`}
+                  className={`flex-1 min-w-[100px] rounded-md border-[1.5px] px-3 py-2 text-sm transition-colors ${language === code ? "border-airmail bg-airmail/5 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"}`}
                 >
                   {info.flag} {info.name}
                 </button>
@@ -44,7 +44,7 @@ export default function ChatPage() {
                 <button
                   key={t.value}
                   onClick={() => setTopic(t.value as ChatTopic)}
-                  className={`rounded-lg border px-3 py-2 text-sm text-left ${topic === t.value ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600"}`}
+                  className={`rounded-md border-[1.5px] px-3 py-2 text-sm text-left transition-colors ${topic === t.value ? "border-airmail bg-airmail/5 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"}`}
                 >
                   {t.icon} {t.label}
                 </button>
