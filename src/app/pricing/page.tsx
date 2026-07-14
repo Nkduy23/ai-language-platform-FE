@@ -8,9 +8,12 @@ import { Check } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/Button";
+import PostmarkStamp from "@/components/shared/motifs/PostmarkStamp";
+import AirmailBorder from "@/components/shared/motifs/AirmailBorder";
 import { subscriptionsApi } from "@/lib/api/subscriptions";
 import { useAuthStore } from "@/store/authStore";
 import { ROUTES } from "@/lib/constants/routes";
+import { cn } from "@/lib/utils/cn";
 
 export default function PricingPage() {
   const router = useRouter();
@@ -26,37 +29,54 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-postcard paper-texture">
       <Navbar />
 
       <section className="max-w-5xl mx-auto px-6 py-16 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Chọn gói phù hợp với bạn</h1>
-        <p className="text-slate-500 mb-12">Học Anh, Trung, Nhật cùng AI — nâng cấp bất cứ lúc nào</p>
+        <h1 className="text-3xl sm:text-4xl mb-3">Chọn gói phù hợp với bạn</h1>
+        <p className="text-ink-muted mb-12">Học Anh, Trung, Nhật cùng AI — nâng cấp bất cứ lúc nào</p>
 
         {isLoading ? (
-          <p className="text-slate-400">Đang tải...</p>
+          <p className="text-ink-muted/70">Đang tải...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans?.map((p) => (
-              <div key={p.plan} className={`rounded-2xl border p-6 text-left ${p.plan === "PREMIUM" ? "border-brand shadow-lg scale-105" : "border-surface-border"}`}>
-                {p.plan === "PREMIUM" && <span className="text-xs bg-brand text-white px-2 py-0.5 rounded-full">Phổ biến nhất</span>}
-                <h3 className="text-lg font-bold text-slate-900 mt-2">{p.plan}</h3>
-                <p className="text-3xl font-bold text-slate-900 my-3">
-                  {p.priceVnd === 0 ? "Miễn phí" : `${p.priceVnd.toLocaleString("vi-VN")}đ`}
-                  {p.priceVnd > 0 && <span className="text-sm text-slate-400 font-normal">/tháng</span>}
-                </p>
-                <ul className="space-y-2 mb-6">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-slate-600">
-                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {f}
-                    </li>
-                  ))}
-                </ul>
-                <Button fullWidth variant={p.plan === "PREMIUM" ? "primary" : "secondary"} onClick={() => handleSelectPlan(p.plan)}>
-                  {p.plan === "FREE" ? "Bắt đầu miễn phí" : `Chọn ${p.plan}`}
-                </Button>
-              </div>
-            ))}
+            {plans?.map((p) => {
+              const isPremium = p.plan === "PREMIUM";
+              const isPro = p.plan === "PRO";
+              return (
+                <div
+                  key={p.plan}
+                  className={cn(
+                    "relative rounded-md p-6 text-left bg-postcard",
+                    isPremium && "border-[2.5px] border-gold-foil shadow-stamp-gold scale-105",
+                    isPro && "border-[1.5px] border-airmail/40 shadow-stamp",
+                    !isPremium && !isPro && "border-[1.5px] border-paper-line",
+                  )}
+                >
+                  {isPro && <AirmailBorder position="all" />}
+                  {isPremium && (
+                    <PostmarkStamp label="RECOMMENDED •" color="gold-foil" size={64} rotate={10} className="absolute -top-6 -right-4">
+                      ★
+                    </PostmarkStamp>
+                  )}
+                  <h3 className="text-lg font-display font-bold text-ink-navy mt-2">{p.plan}</h3>
+                  <p className="text-3xl font-display font-bold text-ink-navy my-3">
+                    {p.priceVnd === 0 ? "Miễn phí" : `${p.priceVnd.toLocaleString("vi-VN")}đ`}
+                    {p.priceVnd > 0 && <span className="text-sm text-ink-muted font-sans font-normal">/tháng</span>}
+                  </p>
+                  <ul className="space-y-2 mb-6">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm text-ink-muted">
+                        <Check className="w-4 h-4 text-stamp-teal shrink-0 mt-0.5" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button fullWidth variant={isPremium || isPro ? "primary" : "secondary"} onClick={() => handleSelectPlan(p.plan)}>
+                    {p.plan === "FREE" ? "Bắt đầu miễn phí" : `Chọn ${p.plan}`}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         )}
       </section>
