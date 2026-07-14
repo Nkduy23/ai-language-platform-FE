@@ -62,9 +62,7 @@ export default function CommunityPage() {
           </Link>
         ))}
 
-        {data?.data.length === 0 && (
-          <p className="text-center text-slate-400 py-10">Chưa có câu hỏi nào, hãy là người đầu tiên!</p>
-        )}
+        {data?.data.length === 0 && <p className="text-center text-slate-400 py-10">Chưa có câu hỏi nào, hãy là người đầu tiên!</p>}
       </div>
 
       <Modal open={showAsk} onClose={() => setShowAsk(false)} title="Đặt câu hỏi mới">
@@ -74,21 +72,16 @@ export default function CommunityPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Tiêu đề câu hỏi..."
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm"
           />
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Mô tả chi tiết câu hỏi của bạn..."
             rows={4}
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm resize-none"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm resize-none"
           />
-          <Button
-            fullWidth
-            disabled={!title.trim() || !content.trim()}
-            loading={createMutation.isPending}
-            onClick={() => createMutation.mutate()}
-          >
+          <Button fullWidth disabled={!title.trim() || !content.trim()} loading={createMutation.isPending} onClick={() => createMutation.mutate()}>
             Đăng câu hỏi
           </Button>
         </div>

@@ -25,7 +25,7 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Người dùng</h1>
+      <h1 className="text-2xl mb-6">Người dùng</h1>
 
       <div className="relative mb-4 max-w-sm">
         <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -36,7 +36,7 @@ export default function AdminUsersPage() {
             setPage(1);
           }}
           placeholder="Tìm theo email hoặc tên..."
-          className="w-full pl-9 pr-3 py-2 rounded-lg border border-surface-border text-sm"
+          className="w-full pl-9 pr-3 py-2 rounded-md border-[1.5px] border-surface-border bg-postcard text-sm"
         />
       </div>
 
@@ -60,23 +60,17 @@ export default function AdminUsersPage() {
                   <p className="text-xs text-slate-400">{u.email}</p>
                 </td>
                 <td className="px-4 py-3">{u.profile?.currentLevel ?? "—"}</td>
-                <td className="px-4 py-3">{u.profile?.totalXp ?? 0} XP · {u.profile?.streakDays ?? 0}🔥</td>
                 <td className="px-4 py-3">
-                  <Badge variant={u.subscription?.plan === "FREE" || !u.subscription ? "default" : "success"}>
-                    {u.subscription?.plan ?? "FREE"}
-                  </Badge>
+                  {u.profile?.totalXp ?? 0} XP · {u.profile?.streakDays ?? 0}🔥
                 </td>
                 <td className="px-4 py-3">
-                  <span className={u.isActive ? "text-green-600" : "text-red-500"}>
-                    {u.isActive ? "Hoạt động" : "Đã khoá"}
-                  </span>
+                  <Badge variant={u.subscription?.plan === "FREE" || !u.subscription ? "default" : "success"}>{u.subscription?.plan ?? "FREE"}</Badge>
+                </td>
+                <td className="px-4 py-3">
+                  <span className={u.isActive ? "text-stamp-teal" : "text-airmail"}>{u.isActive ? "Hoạt động" : "Đã khoá"}</span>
                 </td>
                 <td className="px-4 py-3 text-right">
-                  <button
-                    onClick={() => toggleMutation.mutate(u.id)}
-                    className="text-slate-400 hover:text-brand"
-                    title={u.isActive ? "Khoá tài khoản" : "Mở khoá"}
-                  >
+                  <button onClick={() => toggleMutation.mutate(u.id)} className="text-slate-400 hover:text-brand" title={u.isActive ? "Khoá tài khoản" : "Mở khoá"}>
                     {u.isActive ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
                   </button>
                 </td>
@@ -89,11 +83,7 @@ export default function AdminUsersPage() {
       {data && data.pagination.totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-4">
           {Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1).map((p) => (
-            <button
-              key={p}
-              onClick={() => setPage(p)}
-              className={`w-8 h-8 rounded-lg text-sm ${p === page ? "bg-brand text-white" : "text-slate-500 hover:bg-slate-100"}`}
-            >
+            <button key={p} onClick={() => setPage(p)} className={`w-8 h-8 rounded-md text-sm font-mono ${p === page ? "bg-airmail text-postcard" : "text-ink-muted hover:bg-postcard-dark"}`}>
               {p}
             </button>
           ))}

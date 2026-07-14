@@ -24,31 +24,29 @@ export default function AdminOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Tổng quan</h1>
+      <h1 className="text-2xl mb-6">Tổng quan</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {cards.map((c) => (
           <Card key={c.label}>
             <c.icon className="w-5 h-5 text-brand mb-2" />
-            <p className="text-2xl font-bold text-slate-900">{c.value}</p>
+            <p className="text-2xl font-bold font-mono text-ink-navy">{c.value}</p>
             <p className="text-xs text-slate-500 mt-0.5">{c.label}</p>
-            {c.sub && <p className="text-xs text-green-600 mt-1">{c.sub}</p>}
+            {c.sub && <p className="text-xs text-stamp-teal mt-1">{c.sub}</p>}
           </Card>
         ))}
       </div>
 
       <Card>
-        <h3 className="font-semibold text-slate-900 mb-3">Người dùng theo gói</h3>
+        <h3 className="font-semibold text-ink-navy mb-3">Người dùng theo gói</h3>
         <div className="flex gap-6">
           {Object.entries(stats.users.byPlan).map(([plan, count]) => (
             <div key={plan}>
-              <p className="text-xl font-bold text-slate-900">{count}</p>
+              <p className="text-xl font-bold font-mono text-ink-navy">{count}</p>
               <p className="text-xs text-slate-500">{plan}</p>
             </div>
           ))}
-          {Object.keys(stats.users.byPlan).length === 0 && (
-            <p className="text-sm text-slate-400">Chưa có subscription nào</p>
-          )}
+          {Object.keys(stats.users.byPlan).length === 0 && <p className="text-sm text-slate-400">Chưa có subscription nào</p>}
         </div>
       </Card>
     </div>

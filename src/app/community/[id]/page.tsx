@@ -67,16 +67,10 @@ export default function CommunityQuestionDetailPage() {
           <h1 className="text-xl font-bold text-slate-900 mb-2">{question.title}</h1>
           <p className="text-sm text-slate-600 whitespace-pre-wrap mb-4">{question.content}</p>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => likeQuestionMutation.mutate()}
-              className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand"
-            >
+            <button onClick={() => likeQuestionMutation.mutate()} className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand">
               <ThumbsUp className="w-4 h-4" /> {question._count.likes}
             </button>
-            <button
-              onClick={() => bookmarkMutation.mutate()}
-              className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand"
-            >
+            <button onClick={() => bookmarkMutation.mutate()} className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand">
               <Bookmark className="w-4 h-4" /> Lưu
             </button>
           </div>
@@ -85,9 +79,9 @@ export default function CommunityQuestionDetailPage() {
         <h2 className="text-sm font-semibold text-slate-700">{question.answers.length} câu trả lời</h2>
 
         {question.answers.map((a) => (
-          <Card key={a.id} className={cn(a.isAccepted && "border-2 border-green-400")}>
+          <Card key={a.id} className={cn(a.isAccepted && "border-2 border-stamp-teal")}>
             {a.isAccepted && (
-              <p className="flex items-center gap-1 text-xs text-green-600 font-medium mb-2">
+              <p className="flex items-center gap-1 text-xs text-stamp-teal font-medium mb-2">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Câu trả lời hay nhất
               </p>
             )}
@@ -95,17 +89,11 @@ export default function CommunityQuestionDetailPage() {
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-400">{a.user.profile?.displayName ?? "Ẩn danh"}</span>
               <div className="flex items-center gap-3">
-                <button
-                  onClick={() => likeAnswerMutation.mutate(a.id)}
-                  className="flex items-center gap-1 text-xs text-slate-500 hover:text-brand"
-                >
+                <button onClick={() => likeAnswerMutation.mutate(a.id)} className="flex items-center gap-1 text-xs text-slate-500 hover:text-brand">
                   <ThumbsUp className="w-3.5 h-3.5" /> {a._count.likes}
                 </button>
                 {isOwner && !a.isAccepted && (
-                  <button
-                    onClick={() => acceptMutation.mutate(a.id)}
-                    className="text-xs text-green-600 hover:underline"
-                  >
+                  <button onClick={() => acceptMutation.mutate(a.id)} className="text-xs text-stamp-teal hover:underline">
                     Chọn là hay nhất
                   </button>
                 )}
@@ -120,7 +108,7 @@ export default function CommunityQuestionDetailPage() {
             onChange={(e) => setAnswerText(e.target.value)}
             placeholder="Viết câu trả lời của bạn..."
             rows={3}
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm resize-none mb-3"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm resize-none mb-3"
           />
           <Button disabled={!answerText.trim()} loading={answerMutation.isPending} onClick={() => answerMutation.mutate()}>
             Gửi trả lời

@@ -29,15 +29,14 @@ export default function AdminBlogPage() {
   });
 
   const togglePublishMutation = useMutation({
-    mutationFn: ({ id, isPublished }: { id: string; isPublished: boolean }) =>
-      adminApi.updateBlogPost(id, { isPublished }),
+    mutationFn: ({ id, isPublished }: { id: string; isPublished: boolean }) => adminApi.updateBlogPost(id, { isPublished }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-blog"] }),
   });
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Blog CMS</h1>
+        <h1 className="text-2xl">Blog CMS</h1>
         <Button onClick={() => setShowCreate(true)}>
           <Plus className="w-4 h-4 mr-1.5" /> Bài viết mới
         </Button>
@@ -49,7 +48,7 @@ export default function AdminBlogPage() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-brand font-medium">{post.language}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${post.isPublished ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${post.isPublished ? "bg-stamp-teal/15 text-stamp-teal" : "bg-postcard-dark text-ink-muted"}`}>
                   {post.isPublished ? "Đã đăng" : "Nháp"}
                 </span>
               </div>
@@ -73,7 +72,7 @@ export default function AdminBlogPage() {
           <select
             value={form.language}
             onChange={(e) => setForm({ ...form, language: e.target.value as LanguageCode })}
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm"
           >
             <option value="EN">🇺🇸 English</option>
             <option value="ZH">🇨🇳 Chinese</option>
@@ -83,27 +82,22 @@ export default function AdminBlogPage() {
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
             placeholder="Tiêu đề"
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm"
           />
           <input
             value={form.excerpt}
             onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
             placeholder="Mô tả ngắn (excerpt)"
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm"
           />
           <textarea
             value={form.content}
             onChange={(e) => setForm({ ...form, content: e.target.value })}
             placeholder="Nội dung bài viết..."
             rows={8}
-            className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm resize-none"
+            className="w-full rounded-md border-[1.5px] border-surface-border bg-postcard px-3 py-2 text-sm resize-none"
           />
-          <Button
-            fullWidth
-            disabled={!form.title || !form.excerpt || !form.content}
-            loading={createMutation.isPending}
-            onClick={() => createMutation.mutate()}
-          >
+          <Button fullWidth disabled={!form.title || !form.excerpt || !form.content} loading={createMutation.isPending} onClick={() => createMutation.mutate()}>
             Tạo bài viết (bản nháp)
           </Button>
         </div>
