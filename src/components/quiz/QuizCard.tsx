@@ -85,7 +85,12 @@ export default function QuizCard({ question, questionNumber, totalQuestions, onA
 
       {/* Explanation */}
       {submitted && explanation && (
-        <div className={cn("p-4 rounded-xl border text-sm leading-relaxed", isCorrect ? "bg-green-50 border-green-200 text-green-800" : "bg-blue-50 border-blue-200 text-blue-800")}>
+        <div
+          className={cn(
+            "p-4 rounded-md border-[1.5px] text-sm leading-relaxed",
+            isCorrect ? "bg-stamp-teal/10 border-stamp-teal/30 text-[#1E6E63]" : "bg-gold-foil/10 border-gold-foil/30 text-[#8A6425]",
+          )}
+        >
           <p className="font-medium mb-1">{isCorrect ? "✅ Chính xác!" : "💡 Giải thích"}</p>
           <p>{explanation}</p>
         </div>
@@ -135,21 +140,21 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
       {/* Arranged sentence */}
       <div
         className={cn(
-          "min-h-12 p-3 rounded-xl border-2 flex flex-wrap gap-2 transition-colors",
-          !submitted && "border-slate-200 bg-slate-50",
-          submitted && isCorrect && "border-green-400 bg-green-50",
-          submitted && !isCorrect && correctAnswer && "border-red-400 bg-red-50",
+          "min-h-12 p-3 rounded-md border-2 flex flex-wrap gap-2 transition-colors",
+          !submitted && "border-paper-line bg-postcard-dark",
+          submitted && isCorrect && "border-stamp-teal bg-stamp-teal/10",
+          submitted && !isCorrect && correctAnswer && "border-airmail bg-airmail/10",
         )}
       >
         {arranged.length === 0 ? (
-          <p className="text-slate-400 text-sm self-center">Nhấn vào từ bên dưới để sắp xếp...</p>
+          <p className="text-ink-muted text-sm self-center">Nhấn vào từ bên dưới để sắp xếp...</p>
         ) : (
           arranged.map((word, i) => (
             <button
               key={i}
               onClick={() => removeWord(i)}
               disabled={submitted}
-              className="px-3 py-1.5 bg-brand text-white rounded-lg text-sm font-medium hover:bg-brand-dark transition-colors disabled:opacity-70"
+              className="px-3 py-1.5 bg-airmail text-postcard rounded-md text-sm font-medium hover:bg-airmail-dark transition-colors disabled:opacity-70"
             >
               {word}
             </button>
@@ -165,7 +170,7 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
               key={i}
               onClick={() => addWord(word, i)}
               disabled={submitted}
-              className="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:border-brand hover:text-brand transition-colors disabled:opacity-50"
+              className="px-3 py-1.5 bg-postcard border-[1.5px] border-paper-line rounded-md text-sm font-medium text-ink-navy hover:border-airmail hover:text-airmail transition-colors disabled:opacity-50"
             >
               {word}
             </button>
@@ -174,8 +179,8 @@ function ArrangeAnswer({ words, onAnswer, correctAnswer, submitted }: { words: s
       )}
 
       {submitted && !isCorrect && correctAnswer && (
-        <div className="flex items-center gap-2 px-4 py-3 bg-green-50 rounded-xl border border-green-200">
-          <p className="text-sm text-green-700">
+        <div className="flex items-center gap-2 px-4 py-3 bg-stamp-teal/10 rounded-md border-[1.5px] border-stamp-teal/30">
+          <p className="text-sm text-[#1E6E63]">
             Đáp án đúng: <span className="font-semibold">{correctAnswer}</span>
           </p>
         </div>

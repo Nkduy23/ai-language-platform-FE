@@ -129,10 +129,10 @@ export default function QuizPage() {
       {stats && pageState === "idle" && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {[
-            { label: "Đã làm", value: stats.totalSessions, icon: Brain, color: "text-brand" },
-            { label: "Điểm TB", value: `${stats.avgScore}%`, icon: Target, color: "text-green-600" },
-            { label: "Độ chính xác", value: `${stats.accuracy}%`, icon: Clock, color: "text-orange-500" },
-            { label: "XP từ Quiz", value: `${stats.totalXpFromQuiz} ⚡`, icon: Zap, color: "text-yellow-500" },
+            { label: "Đã làm", value: stats.totalSessions, icon: Brain, color: "text-ink-navy" },
+            { label: "Điểm TB", value: `${stats.avgScore}%`, icon: Target, color: "text-stamp-teal" },
+            { label: "Độ chính xác", value: `${stats.accuracy}%`, icon: Clock, color: "text-gold-foil" },
+            { label: "XP từ Quiz", value: `${stats.totalXpFromQuiz} ⚡`, icon: Zap, color: "text-airmail" },
           ].map((item) => (
             <Card key={item.label} padding="sm">
               <p className="text-xs text-slate-500 mb-1">{item.label}</p>
@@ -160,7 +160,7 @@ export default function QuizPage() {
                     key={code}
                     onClick={() => setSelectedLang(code)}
                     className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
-                      selectedLang === code ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      selectedLang === code ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                     }`}
                   >
                     <span>{LANGUAGES[code].flag}</span>
@@ -179,7 +179,7 @@ export default function QuizPage() {
                     key={n}
                     onClick={() => setQuestionCount(n)}
                     className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                      questionCount === n ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      questionCount === n ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                     }`}
                   >
                     {n} câu
@@ -195,7 +195,7 @@ export default function QuizPage() {
                 <button
                   onClick={() => setSelectedLevel("")}
                   className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                    selectedLevel === "" ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                    selectedLevel === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                   }`}
                 >
                   Tất cả
@@ -205,7 +205,7 @@ export default function QuizPage() {
                     key={level}
                     onClick={() => setSelectedLevel(level)}
                     className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                      selectedLevel === level ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      selectedLevel === level ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                     }`}
                   >
                     {level}

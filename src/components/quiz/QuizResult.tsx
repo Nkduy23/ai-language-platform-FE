@@ -19,13 +19,13 @@ export default function QuizResult({ result, onRestart }: QuizResultProps) {
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Score card */}
       <Card className="text-center py-8">
-        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Trophy className="w-8 h-8 text-yellow-500" />
+        <div className="w-16 h-16 bg-gold-foil/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Trophy className="w-8 h-8 text-gold-foil" />
         </div>
 
-        <p className={cn("text-4xl sm:text-5xl font-bold mb-2", getGradeColor(accuracy))}>{accuracy}%</p>
-        <p className="text-slate-500 text-sm mb-1">{result.grade}</p>
-        <p className="text-slate-400 text-xs">
+        <p className={cn("text-4xl sm:text-5xl font-display font-bold mb-2", getGradeColor(accuracy))}>{accuracy}%</p>
+        <p className="text-ink-muted text-sm mb-1">{result.grade}</p>
+        <p className="text-ink-muted/70 text-xs">
           {result.correct} / {result.total} câu đúng
         </p>
 
@@ -33,31 +33,34 @@ export default function QuizResult({ result, onRestart }: QuizResultProps) {
           <ProgressBar value={accuracy} color={accuracy >= 70 ? "green" : accuracy >= 50 ? "orange" : "blue"} />
         </div>
 
-        <div className="flex items-center justify-center gap-2 mt-4 text-brand font-semibold">⚡ +{result.xpEarned} XP</div>
+        <div className="flex items-center justify-center gap-2 mt-4 text-airmail font-semibold font-mono">⚡ +{result.xpEarned} XP</div>
       </Card>
 
       {/* Detail answers */}
       <Card padding="sm">
-        <h3 className="font-semibold text-slate-900 mb-4 px-2">Chi tiết từng câu</h3>
+        <h3 className="font-semibold text-ink-navy mb-4 px-2">Chi tiết từng câu</h3>
         <div className="space-y-3">
           {result.details.map((detail, i) => (
-            <div key={detail.questionId} className={cn("flex items-start gap-3 p-3 rounded-xl", detail.isCorrect ? "bg-green-50" : "bg-red-50")}>
-              <div className="flex-shrink-0 mt-0.5">{detail.isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-400" />}</div>
+            <div
+              key={detail.questionId}
+              className={cn("flex items-start gap-3 p-3 rounded-md border-[1.5px]", detail.isCorrect ? "bg-stamp-teal/10 border-stamp-teal/20" : "bg-airmail/10 border-airmail/20")}
+            >
+              <div className="flex-shrink-0 mt-0.5">{detail.isCorrect ? <CheckCircle className="w-5 h-5 text-stamp-teal" /> : <XCircle className="w-5 h-5 text-airmail" />}</div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-900 mb-1">
+                <p className="text-sm font-medium text-ink-navy mb-1">
                   Câu {i + 1}: {detail.question}
                 </p>
                 {!detail.isCorrect && (
                   <div className="space-y-0.5">
-                    <p className="text-xs text-red-500">
+                    <p className="text-xs text-airmail-dark">
                       Bạn trả lời: <span className="font-medium">{detail.yourAnswer || "(bỏ qua)"}</span>
                     </p>
-                    <p className="text-xs text-green-600">
+                    <p className="text-xs text-[#1E6E63]">
                       Đáp án đúng: <span className="font-medium">{detail.correctAnswer}</span>
                     </p>
                   </div>
                 )}
-                {detail.explanation && <p className="text-xs text-slate-500 mt-1 italic">{detail.explanation}</p>}
+                {detail.explanation && <p className="text-xs text-ink-muted mt-1 italic">{detail.explanation}</p>}
               </div>
             </div>
           ))}

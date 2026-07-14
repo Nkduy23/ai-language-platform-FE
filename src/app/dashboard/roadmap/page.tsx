@@ -94,7 +94,7 @@ export default function RoadmapPage() {
                   <input
                     value={answers[q.id] ?? ""}
                     onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
-                    className="w-full rounded-lg border border-surface-border px-3 py-2 text-sm"
+                    className="w-full rounded-md border-[1.5px] border-surface-border px-3 py-2 text-sm bg-postcard"
                     placeholder="Nhập câu trả lời..."
                   />
                 )}
@@ -129,13 +129,18 @@ export default function RoadmapPage() {
         {badges && (
           <Card>
             <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-purple-500" /> Huy hiệu
+              <Award className="w-4 h-4 text-gold-foil" /> Huy hiệu
             </h3>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
               {badges.map((b) => (
-                <div key={b.id} className={`flex flex-col items-center gap-1 rounded-lg p-3 text-center ${b.achieved ? "bg-purple-50" : "bg-slate-50 opacity-40"}`}>
+                <div
+                  key={b.id}
+                  className={`flex flex-col items-center gap-1 rounded-md p-3 text-center border-[1.5px] ${
+                    b.achieved ? "bg-gold-foil/10 border-gold-foil/40" : "bg-postcard-dark border-paper-line opacity-40"
+                  }`}
+                >
                   <span className="text-2xl">{b.icon}</span>
-                  <span className="text-xs text-slate-600">{b.label}</span>
+                  <span className="text-xs text-ink-muted">{b.label}</span>
                 </div>
               ))}
             </div>
@@ -144,17 +149,17 @@ export default function RoadmapPage() {
 
         {leaderboard && leaderboard.length > 0 && (
           <Card>
-            <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-1.5">
-              <Trophy className="w-4 h-4 text-amber-500" /> Bảng xếp hạng XP
+            <h3 className="font-semibold text-ink-navy mb-3 flex items-center gap-1.5">
+              <Trophy className="w-4 h-4 text-gold-foil" /> Bảng xếp hạng XP
             </h3>
             <div className="space-y-2">
               {leaderboard.map((entry) => (
                 <div key={entry.rank} className="flex items-center justify-between gap-3 text-sm">
                   <span className="flex items-center gap-2 min-w-0">
-                    <span className="w-5 text-slate-400 font-medium flex-shrink-0">#{entry.rank}</span>
+                    <span className="w-5 text-ink-muted font-mono font-medium flex-shrink-0">#{entry.rank}</span>
                     <span className="truncate">{entry.displayName}</span>
                   </span>
-                  <span className="font-semibold text-brand flex-shrink-0">{entry.totalXp} XP</span>
+                  <span className="font-semibold font-mono text-airmail flex-shrink-0">{entry.totalXp} XP</span>
                 </div>
               ))}
             </div>

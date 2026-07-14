@@ -45,8 +45,8 @@ export function getLevelColor(level: CefrLevel): string {
 }
 
 export function getGradeColor(score: number): string {
-  if (score >= 90) return "text-green-600";
-  if (score >= 70) return "text-blue-600";
-  if (score >= 50) return "text-yellow-600";
-  return "text-red-600";
+  if (score >= 90) return "text-stamp-teal";
+  if (score >= 70) return "text-ink-navy";
+  if (score >= 50) return "text-gold-foil";
+  return "text-airmail";
 }
