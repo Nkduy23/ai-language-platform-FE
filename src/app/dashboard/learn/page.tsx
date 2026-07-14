@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { BookOpen, Filter, RotateCcw, Zap } from "lucide-react";
+import { BookOpen, Filter, RotateCcw, Zap, PartyPopper, ArrowRight } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import FlashcardSession from "@/components/flashcard/FlashcardSession";
 import Card from "@/components/ui/Card";
@@ -97,6 +97,30 @@ export default function LearnPage() {
           </div>
           <FlashcardSession cards={sessionCards} onComplete={handleComplete} onRestart={handleRestart} />
         </div>
+      )}
+
+      {/* Hoàn thành session — trước đây bị thiếu hẳn nhánh này, gây trắng trang sau khi học xong */}
+      {sessionState === "done" && (
+        <Card className="max-w-lg mx-auto text-center py-10">
+          <div className="w-16 h-16 rounded-full bg-airmail/10 flex items-center justify-center mx-auto mb-4">
+            <PartyPopper className="w-8 h-8 text-airmail" />
+          </div>
+          <h2 className="font-display text-2xl font-bold text-ink-navy mb-2">Hoàn thành phiên học!</h2>
+          <p className="text-sm text-slate-500 mb-6">
+            Bạn vừa ôn xong {sessionCards.length} từ — {LANGUAGES[selectedLang].flag} {LANGUAGES[selectedLang].name}. Đóng thêm 1 dấu mộc vào hành trình của mình rồi đó!
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="lg" onClick={() => startMutation.mutate()} loading={startMutation.isPending} className="gap-2">
+              <Zap className="w-4 h-4" />
+              Học thêm {cardCount} từ nữa
+            </Button>
+            <Button variant="outline" size="lg" onClick={handleRestart} className="gap-2">
+              Đổi bộ lọc
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </Card>
       )}
 
       {/* Idle — chọn filter + bắt đầu */}

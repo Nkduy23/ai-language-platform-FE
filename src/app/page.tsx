@@ -56,7 +56,7 @@ const LANG_TEXT = { en: "text-lang-en", zh: "text-lang-zh", ja: "text-[#8A6425]"
 
 const PERKS = ["Miễn phí hoàn toàn để bắt đầu", "Không cần thẻ tín dụng", "Học mọi lúc, mọi nơi", "Theo dõi tiến trình chi tiết"];
 
-const BLOG_PREVIEW_COUNT = 4;
+const BLOG_PREVIEW_COUNT = 6;
 
 export default async function HomePage() {
   let posts: Awaited<ReturnType<typeof contentApi.listBlogPosts>>["data"] = [];
