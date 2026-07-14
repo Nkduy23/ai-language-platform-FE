@@ -37,12 +37,8 @@ export default function DashboardLayout({ children, title, description }: Dashbo
 
       <main className="flex-1 lg:ml-64 overflow-y-auto">
         {/* Thanh trên cùng — chỉ hiện trên mobile/tablet, chứa nút mở menu */}
-        <div className="lg:hidden sticky top-0 z-30 flex items-center gap-3 h-14 px-4 bg-white border-b border-slate-200">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 -ml-2 rounded-lg text-slate-600 hover:bg-slate-100 flex-shrink-0"
-            aria-label="Mở menu"
-          >
+        <div className="lg:hidden sticky top-0 z-30 flex items-center gap-3 h-14 px-4 bg-postcard border-b-[1.5px] border-paper-line">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-lg text-slate-600 hover:bg-slate-100 flex-shrink-0" aria-label="Mở menu">
             <Menu className="w-5 h-5" />
           </button>
           <span className="font-semibold text-slate-900 text-sm truncate flex-1">{title ?? "AI Language"}</span>

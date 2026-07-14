@@ -10,12 +10,12 @@ interface XpIndicatorProps {
 
 export default function XpIndicator({ xp, streak, className }: XpIndicatorProps) {
   return (
-    <div className={cn("flex items-center gap-4", className)}>
-      <div className="flex items-center gap-1.5 text-orange-500">
+    <div className={cn("flex items-center gap-4 font-mono", className)}>
+      <div className="flex items-center gap-1.5 text-gold-foil">
         <Flame className="w-4 h-4" />
         <span className="text-sm font-semibold">{streak} ngày</span>
       </div>
-      <div className="flex items-center gap-1.5 text-brand">
+      <div className="flex items-center gap-1.5 text-airmail">
         <Zap className="w-4 h-4" />
         <span className="text-sm font-semibold">{xp} XP</span>
       </div>

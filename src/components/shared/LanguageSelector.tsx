@@ -9,6 +9,13 @@ interface Props {
   className?: string;
 }
 
+// Mỗi ngôn ngữ có 1 màu nhận diện riêng, dùng nhất quán xuyên suốt app
+const LANG_ACCENT: Record<LanguageCode, string> = {
+  EN: "border-lang-en bg-lang-en/10 text-lang-en",
+  ZH: "border-lang-zh bg-lang-zh/10 text-lang-zh",
+  JA: "border-lang-ja bg-lang-ja/10 text-[#8A6425]",
+};
+
 export default function LanguageSelector({ value, onChange, className }: Props) {
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
@@ -18,8 +25,8 @@ export default function LanguageSelector({ value, onChange, className }: Props) 
           type="button"
           onClick={() => onChange(code)}
           className={cn(
-            "flex-1 min-w-[100px] rounded-lg border px-3 py-2 text-sm transition-colors",
-            value === code ? "border-brand bg-brand/5 text-brand font-medium" : "border-surface-border text-slate-600 hover:border-slate-300",
+            "flex-1 min-w-[100px] rounded-md border-[1.5px] px-3 py-2 text-sm font-medium transition-colors",
+            value === code ? LANG_ACCENT[code] : "border-surface-border text-ink-muted hover:border-ink-navy/30",
           )}
         >
           {LANGUAGES[code].flag} {LANGUAGES[code].name}
