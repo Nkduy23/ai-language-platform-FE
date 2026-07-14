@@ -15,7 +15,7 @@ const colors = {
   blue: "bg-brand",
   green: "bg-success",
   orange: "bg-warning",
-  purple: "bg-purple-500",
+  purple: "bg-ink-navy",
 };
 
 export default function ProgressBar({ value, max = 100, label, showPercent, size = "md", color = "blue", className }: ProgressBarProps) {

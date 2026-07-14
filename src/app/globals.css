@@ -1,36 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   * {
-    @apply border-slate-200;
+    @apply border-paper-line;
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    @apply bg-postcard text-ink-navy antialiased font-sans;
   }
 
-  h1 { @apply text-3xl font-bold tracking-tight; }
-  h2 { @apply text-2xl font-semibold tracking-tight; }
+  h1, h2, h3 {
+    @apply font-display tracking-tight text-ink-navy;
+  }
+  h4 {
+    @apply font-sans font-semibold text-ink-navy;
+  }
+
+  h1 { @apply text-3xl font-bold; }
+  h2 { @apply text-2xl font-semibold; }
   h3 { @apply text-xl font-semibold; }
-  h4 { @apply text-lg font-medium; }
+  h4 { @apply text-lg; }
 }
 
 @layer components {
+  /* Base "page" surface — a card that reads like a passport page / postcard */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-slate-200 p-6;
+    @apply bg-postcard rounded-md border-[1.5px] border-paper-line shadow-stamp p-6;
   }
 
-  .badge-a1 { @apply bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full; }
-  .badge-a2 { @apply bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full; }
-  .badge-b1 { @apply bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full; }
-  .badge-b2 { @apply bg-purple-100 text-purple-700 text-xs font-medium px-2 py-0.5 rounded-full; }
-  .badge-c1 { @apply bg-orange-100 text-orange-700 text-xs font-medium px-2 py-0.5 rounded-full; }
-  .badge-c2 { @apply bg-red-100 text-red-700 text-xs font-medium px-2 py-0.5 rounded-full; }
+  /* CEFR level badges — kept as compact pills, retinted to the passport palette */
+  .badge-a1 { @apply bg-stamp-teal/15 text-stamp-teal text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-a2 { @apply bg-stamp-teal/25 text-stamp-teal text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-b1 { @apply bg-ink-navy/10 text-ink-navy text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-b2 { @apply bg-gold-foil/20 text-[#8A6425] text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-c1 { @apply bg-airmail/15 text-airmail text-xs font-medium px-2 py-0.5 rounded-full; }
+  .badge-c2 { @apply bg-airmail/25 text-airmail-dark text-xs font-medium px-2 py-0.5 rounded-full; }
+
+  /* Per-language accent — use for dots, left-borders, tags tied to EN/ZH/JA */
+  .lang-accent-en { @apply border-lang-en text-lang-en; }
+  .lang-accent-zh { @apply border-lang-zh text-lang-zh; }
+  .lang-accent-ja { @apply border-lang-ja text-lang-ja; }
 
   .flashcard-container { perspective: 1000px; }
 
@@ -49,11 +60,41 @@
   }
 
   .flashcard-back { transform: rotateY(180deg); }
+
+  /* Airmail striped border — decorative strip, use on hero/premium blocks */
+  .airmail-border {
+    @apply bg-airmail bg-[length:200%_200%];
+    background-image: repeating-linear-gradient(
+      45deg,
+      #E8543F 0px, #E8543F 10px,
+      transparent 10px, transparent 20px,
+      #1B2A4C 20px, #1B2A4C 30px,
+      transparent 30px, transparent 40px
+    );
+  }
+
+  /* Postcard corner-tick — apply on a `relative` parent to fake a folded-paper corner */
+  .postcard-corner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 16px 16px 0;
+    border-color: transparent theme("colors.paper-line") transparent transparent;
+  }
+
+  /* Very light paper grain — layer on top of postcard-cream backgrounds */
+  .paper-texture {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
   .scrollbar-thin::-webkit-scrollbar { width: 4px; }
   .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-slate-300 rounded-full; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-paper-line rounded-full; }
 }

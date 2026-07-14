@@ -16,9 +16,9 @@ export default function Card({ children, className, hover, padding = "md", onCli
     <div
       onClick={onClick}
       className={cn(
-        "bg-white rounded-xl border border-surface-border shadow-card",
+        "bg-postcard rounded-md border-[1.5px] border-surface-border shadow-card",
         paddings[padding],
-        hover && "hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 cursor-pointer",
+        hover && "hover:shadow-card-hover hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer",
         className,
       )}
     >

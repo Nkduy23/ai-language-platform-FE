@@ -43,11 +43,11 @@ export default function Modal({ open, onClose, title, children, size = "md", cla
       <div className="absolute inset-0 bg-black/50 animate-fade-in" onClick={onClose} />
 
       {/* Modal */}
-      <div className={cn("relative w-full max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-xl animate-slide-up", sizes[size], className)}>
+      <div className={cn("relative w-full max-h-[90vh] overflow-y-auto bg-postcard rounded-md border-[1.5px] border-paper-line shadow-stamp animate-slide-up", sizes[size], className)}>
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-surface-border">
-            <h3 className="text-base sm:text-lg font-semibold text-slate-900">{title}</h3>
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b-[1.5px] border-surface-border">
+            <h3 className="text-base sm:text-lg font-display font-semibold text-ink-navy">{title}</h3>
             <Button variant="ghost" size="sm" onClick={onClose} className="p-1.5 -mr-1.5">
               <X className="w-4 h-4" />
             </Button>

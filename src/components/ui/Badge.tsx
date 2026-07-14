@@ -10,20 +10,20 @@ interface BadgeProps {
 }
 
 const levelStyles: Record<CefrLevel, string> = {
-  A1: "bg-green-100 text-green-700",
-  A2: "bg-teal-100 text-teal-700",
-  B1: "bg-blue-100 text-blue-700",
-  B2: "bg-purple-100 text-purple-700",
-  C1: "bg-orange-100 text-orange-700",
-  C2: "bg-red-100 text-red-700",
+  A1: "bg-stamp-teal/15 text-stamp-teal",
+  A2: "bg-stamp-teal/25 text-stamp-teal",
+  B1: "bg-ink-navy/10 text-ink-navy",
+  B2: "bg-ink-navy/20 text-ink-navy",
+  C1: "bg-gold-foil/20 text-[#8A6425]",
+  C2: "bg-airmail/20 text-airmail-dark",
 };
 
 const variantStyles = {
-  default: "bg-slate-100 text-slate-600",
-  success: "bg-green-100 text-green-700",
-  warning: "bg-yellow-100 text-yellow-700",
-  error: "bg-red-100 text-red-600",
-  info: "bg-blue-100 text-blue-700",
+  default: "bg-postcard-dark text-ink-muted",
+  success: "bg-stamp-teal/15 text-stamp-teal",
+  warning: "bg-gold-foil/20 text-[#8A6425]",
+  error: "bg-airmail/20 text-airmail-dark",
+  info: "bg-ink-navy/10 text-ink-navy",
 };
 
 export default function Badge({ children, variant = "default", level, className }: BadgeProps) {

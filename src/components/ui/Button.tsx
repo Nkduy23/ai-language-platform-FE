@@ -11,14 +11,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant = "primary", size = "md", loading, fullWidth, className, children, disabled, ...props }, ref) => {
   const base =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center font-semibold rounded-md transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:translate-x-px active:translate-y-px";
 
   const variants = {
-    primary: "bg-brand text-white hover:bg-brand-dark focus:ring-brand",
-    secondary: "bg-slate-100 text-slate-700 hover:bg-slate-200 focus:ring-slate-300",
-    outline: "border border-brand text-brand bg-transparent hover:bg-blue-50 focus:ring-brand",
-    ghost: "text-slate-600 hover:bg-slate-100 focus:ring-slate-300",
-    danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400",
+    primary: "bg-airmail text-postcard shadow-stamp-sm hover:bg-airmail-dark hover:shadow-stamp focus:ring-airmail active:shadow-none",
+    secondary: "bg-postcard-dark text-ink-navy border-[1.5px] border-paper-line hover:bg-paper-line/60 focus:ring-ink-navy/30",
+    outline: "border-[1.5px] border-ink-navy text-ink-navy bg-transparent hover:bg-ink-navy hover:text-postcard focus:ring-ink-navy",
+    ghost: "text-ink-muted hover:bg-postcard-dark focus:ring-ink-navy/20",
+    danger: "bg-airmail-dark text-postcard shadow-stamp-sm hover:bg-[#a8321f] focus:ring-airmail-dark active:shadow-none",
   };
 
   const sizes = {
