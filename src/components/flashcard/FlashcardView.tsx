@@ -30,15 +30,15 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
   return (
     <div className="flashcard-container w-full max-w-lg mx-auto" style={{ height: 320 }}>
       <div className={cn("flashcard-inner w-full h-full cursor-pointer", flipped && "flipped")} onClick={() => setFlipped(!flipped)}>
-        {/* Front — chỉ hiện từ */}
-        <div className="flashcard-front absolute inset-0 bg-white rounded-2xl border border-slate-200 shadow-card flex flex-col items-center justify-center p-5 sm:p-8 select-none">
+        {/* Front — thẻ bưu thiếp: viền cứng, góc bẻ giấy */}
+        <div className="flashcard-front postcard-corner absolute inset-0 bg-postcard rounded-md border-[1.5px] border-paper-line shadow-stamp flex flex-col items-center justify-center p-5 sm:p-8 select-none">
           <Badge level={card.level} className="mb-4">
             {card.level}
           </Badge>
 
-          <p className="text-3xl sm:text-4xl font-bold text-slate-900 text-center mb-3 break-words">{card.word}</p>
+          <p className="text-3xl sm:text-4xl font-display font-bold text-ink-navy text-center mb-3 break-words">{card.word}</p>
 
-          {card.pronunciation && <p className="text-slate-400 text-sm sm:text-base font-mono">{card.pronunciation}</p>}
+          {card.pronunciation && <p className="text-ink-muted text-sm sm:text-base font-mono">{card.pronunciation}</p>}
 
           <div className="flex items-center gap-3 mt-6">
             <button
@@ -46,7 +46,7 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
                 e.stopPropagation();
                 speak();
               }}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-50 text-brand rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-airmail/10 text-airmail rounded-md text-sm font-medium hover:bg-airmail/20 transition-colors"
             >
               <Volume2 className="w-4 h-4" />
               Phát âm
@@ -58,43 +58,47 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
                   e.stopPropagation();
                   onToggleFavorite();
                 }}
-                className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                className="p-2 rounded-md hover:bg-postcard-dark transition-colors"
               >
-                {isFavorited ? <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" /> : <StarOff className="w-5 h-5 text-slate-300" />}
+                {isFavorited ? <Star className="w-5 h-5 text-gold-foil fill-gold-foil" /> : <StarOff className="w-5 h-5 text-paper-line" />}
               </button>
             )}
           </div>
 
-          <p className="text-xs text-slate-300 mt-6">Nhấn để xem nghĩa</p>
+          <p className="text-xs text-ink-muted/60 mt-6">Nhấn để xem nghĩa</p>
         </div>
 
-        {/* Back — nghĩa + ví dụ */}
-        <div className="flashcard-back absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-card flex flex-col justify-between p-5 sm:p-8 select-none">
-          <div>
-            <p className="text-blue-200 text-sm font-medium mb-1">Nghĩa</p>
-            <p className="text-white text-xl sm:text-2xl font-bold break-words">{card.meaningVi}</p>
-            {card.meaningEn && <p className="text-blue-200 text-sm mt-1 italic">{card.meaningEn}</p>}
+        {/* Back — mặt sau bưu thiếp, có đường kẻ kiểu ô ghi địa chỉ */}
+        <div className="flashcard-back postcard-corner absolute inset-0 bg-ink-navy rounded-md border-[1.5px] border-ink-navy-dark shadow-stamp flex flex-col justify-between p-5 sm:p-8 select-none overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-[0.15] pointer-events-none"
+            style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 27px, #F5EFE0 27px, #F5EFE0 28px)" }}
+          />
+          <div className="relative">
+            <p className="text-postcard/60 text-sm font-medium mb-1">Nghĩa</p>
+            <p className="text-postcard text-xl sm:text-2xl font-display font-bold break-words">{card.meaningVi}</p>
+            {card.meaningEn && <p className="text-postcard/60 text-sm mt-1 italic">{card.meaningEn}</p>}
           </div>
 
           {card.exampleSentence && (
-            <div className="bg-white/10 rounded-xl p-3 sm:p-4">
-              <p className="text-blue-200 text-xs font-medium mb-1">Ví dụ</p>
-              <p className="text-white text-sm leading-relaxed">{card.exampleSentence}</p>
+            <div className="relative bg-white/10 rounded-md p-3 sm:p-4 border border-white/10">
+              <p className="text-postcard/60 text-xs font-medium mb-1">Ví dụ</p>
+              <p className="text-postcard text-sm leading-relaxed">{card.exampleSentence}</p>
             </div>
           )}
 
-          <div className="flex items-center justify-between">
+          <div className="relative flex items-center justify-between">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 speak();
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white/20 text-white rounded-lg text-sm hover:bg-white/30 transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-white/10 text-postcard rounded-md text-sm hover:bg-white/20 transition-colors border border-white/10"
             >
               <Volume2 className="w-4 h-4" />
               Phát âm
             </button>
-            <p className="text-blue-200 text-xs">Nhấn để lật lại</p>
+            <p className="text-postcard/60 text-xs">Nhấn để lật lại</p>
           </div>
         </div>
       </div>

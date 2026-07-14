@@ -11,6 +11,7 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import AuthPassportPanel from "@/components/shared/AuthPassportPanel";
 import { authApi } from "@/lib/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { ROUTES } from "@/lib/constants/routes";
@@ -48,60 +49,64 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-brand rounded-2xl mb-4 shadow-lg">
-            <span className="text-2xl">🌐</span>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-900">Đăng nhập</h1>
-          <p className="text-slate-500 mt-1 text-sm">Tiếp tục hành trình học ngoại ngữ</p>
-        </div>
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-postcard">
+      <AuthPassportPanel title="Tiếp tục hành trình học ngoại ngữ của bạn" subtitle="Đăng nhập để giữ streak, XP và tiến trình học đã đóng dấu từ trước." />
 
-        {/* Form */}
-        <div className="bg-white rounded-2xl shadow-card border border-surface-border p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <Input label="Email" type="email" placeholder="email@example.com" leftIcon={<Mail className="w-4 h-4" />} error={errors.email?.message} {...register("email")} />
-
-            <div className="relative">
-              <Input
-                label="Mật khẩu"
-                type={showPassword ? "text" : "password"}
-                placeholder="Nhập mật khẩu"
-                leftIcon={<Lock className="w-4 h-4" />}
-                error={errors.password?.message}
-                {...register("password")}
-              />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-9 text-slate-400 hover:text-slate-600">
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-
-            <Button type="submit" fullWidth size="lg" loading={isSubmitting}>
-              Đăng nhập
-            </Button>
-          </form>
-
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-3 text-slate-400">Chưa có tài khoản?</span>
+      {/* Right — Form */}
+      <div className="flex items-center justify-center p-4 sm:p-8">
+        <div className="w-full max-w-md">
+          <div className="text-center md:hidden mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-airmail rounded-md mb-4 shadow-stamp">
+              <span className="text-2xl">🌐</span>
             </div>
           </div>
 
-          <Link href={ROUTES.REGISTER}>
-            <Button variant="outline" fullWidth>
-              Đăng ký miễn phí
-            </Button>
-          </Link>
-        </div>
+          <h1 className="text-2xl mb-1">Đăng nhập</h1>
+          <p className="text-ink-muted mb-8 text-sm">Tiếp tục hành trình học ngoại ngữ</p>
 
-        {/* Footer */}
-        <p className="text-center text-xs text-slate-400 mt-6">Học tiếng Anh · Tiếng Trung · Tiếng Nhật cùng AI</p>
+          <div className="bg-postcard rounded-md shadow-stamp border-[1.5px] border-paper-line p-6 sm:p-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              <Input label="Email" type="email" placeholder="email@example.com" leftIcon={<Mail className="w-4 h-4" />} error={errors.email?.message} {...register("email")} />
+
+              <div className="relative">
+                <Input
+                  label="Mật khẩu"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Nhập mật khẩu"
+                  leftIcon={<Lock className="w-4 h-4" />}
+                  error={errors.password?.message}
+                  {...register("password")}
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-9 text-ink-muted hover:text-ink-navy">
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              <Button type="submit" fullWidth size="lg" loading={isSubmitting}>
+                Đăng nhập
+              </Button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t-[1.5px] border-paper-line" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-postcard px-3 text-ink-muted">Chưa có tài khoản?</span>
+              </div>
+            </div>
+
+            <Link href={ROUTES.REGISTER}>
+              <Button variant="outline" fullWidth>
+                Đăng ký miễn phí
+              </Button>
+            </Link>
+          </div>
+
+          {/* Footer */}
+          <p className="text-center text-xs text-ink-muted mt-6">Học tiếng Anh · Tiếng Trung · Tiếng Nhật cùng AI</p>
+        </div>
       </div>
     </div>
   );

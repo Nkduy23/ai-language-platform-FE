@@ -69,10 +69,10 @@ export default function LearnPage() {
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {[
-            { label: "Tổng từ", value: stats.totalCards, color: "text-slate-900" },
-            { label: "Đã học", value: stats.learned, color: "text-green-600" },
-            { label: "Đang học", value: stats.inProgress, color: "text-blue-600" },
-            { label: "Tổng XP", value: `${stats.totalXp} ⚡`, color: "text-brand" },
+            { label: "Tổng từ", value: stats.totalCards, color: "text-ink-navy" },
+            { label: "Đã học", value: stats.learned, color: "text-stamp-teal" },
+            { label: "Đang học", value: stats.inProgress, color: "text-gold-foil" },
+            { label: "Tổng XP", value: `${stats.totalXp} ⚡`, color: "text-airmail" },
           ].map((item) => (
             <Card key={item.label} padding="sm">
               <p className="text-xs text-slate-500 mb-1">{item.label}</p>
@@ -118,7 +118,7 @@ export default function LearnPage() {
                       key={code}
                       onClick={() => setSelectedLang(code)}
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
-                        selectedLang === code ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                        selectedLang === code ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                       }`}
                     >
                       <span>{LANGUAGES[code].flag}</span>
@@ -137,7 +137,7 @@ export default function LearnPage() {
                       key={n}
                       onClick={() => setCardCount(n)}
                       className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                        cardCount === n ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                        cardCount === n ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                       }`}
                     >
                       {n}
@@ -153,7 +153,7 @@ export default function LearnPage() {
                   <button
                     onClick={() => setSelectedLevel("")}
                     className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                      selectedLevel === "" ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      selectedLevel === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                     }`}
                   >
                     Tất cả
@@ -163,7 +163,7 @@ export default function LearnPage() {
                       key={level}
                       onClick={() => setSelectedLevel(level)}
                       className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                        selectedLevel === level ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                        selectedLevel === level ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                       }`}
                     >
                       {level}
@@ -179,7 +179,7 @@ export default function LearnPage() {
                   <button
                     onClick={() => setSelectedTopic("")}
                     className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                      selectedTopic === "" ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      selectedTopic === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                     }`}
                   >
                     Tất cả
@@ -189,7 +189,7 @@ export default function LearnPage() {
                       key={t.value}
                       onClick={() => setSelectedTopic(t.value)}
                       className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                        selectedTopic === t.value ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                        selectedTopic === t.value ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
                       }`}
                     >
                       {t.label}

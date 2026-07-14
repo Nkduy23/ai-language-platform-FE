@@ -87,31 +87,31 @@ export default function FlashcardSession({ cards, onComplete, onRestart }: Flash
     const accuracy = Math.round((stats.know / stats.total) * 100);
     return (
       <Card className="max-w-lg mx-auto text-center py-10">
-        <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Trophy className="w-8 h-8 text-yellow-500" />
+        <div className="w-16 h-16 bg-gold-foil/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Trophy className="w-8 h-8 text-gold-foil" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900 mb-1">Hoàn thành!</h2>
-        <p className="text-slate-500 text-sm mb-6">Bạn đã học {stats.total} từ</p>
+        <h2 className="text-xl mb-1">Hoàn thành!</h2>
+        <p className="text-ink-muted text-sm mb-6">Bạn đã học {stats.total} từ</p>
 
         <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
-          <div className="bg-green-50 rounded-xl p-2.5 sm:p-4">
-            <p className="text-lg sm:text-2xl font-bold text-green-600">{stats.know}</p>
-            <p className="text-xs text-green-500 mt-1">Đã biết</p>
+          <div className="bg-stamp-teal/10 rounded-md p-2.5 sm:p-4 border-[1.5px] border-stamp-teal/20">
+            <p className="text-lg sm:text-2xl font-bold text-stamp-teal">{stats.know}</p>
+            <p className="text-xs text-stamp-teal mt-1">Đã biết</p>
           </div>
-          <div className="bg-yellow-50 rounded-xl p-2.5 sm:p-4">
-            <p className="text-lg sm:text-2xl font-bold text-yellow-600">{stats.hard}</p>
-            <p className="text-xs text-yellow-500 mt-1">Còn khó</p>
+          <div className="bg-gold-foil/10 rounded-md p-2.5 sm:p-4 border-[1.5px] border-gold-foil/25">
+            <p className="text-lg sm:text-2xl font-bold text-[#8A6425]">{stats.hard}</p>
+            <p className="text-xs text-[#8A6425] mt-1">Còn khó</p>
           </div>
-          <div className="bg-red-50 rounded-xl p-2.5 sm:p-4">
-            <p className="text-lg sm:text-2xl font-bold text-red-600">{stats.dontknow}</p>
-            <p className="text-xs text-red-500 mt-1">Chưa biết</p>
+          <div className="bg-airmail/10 rounded-md p-2.5 sm:p-4 border-[1.5px] border-airmail/20">
+            <p className="text-lg sm:text-2xl font-bold text-airmail-dark">{stats.dontknow}</p>
+            <p className="text-xs text-airmail-dark mt-1">Chưa biết</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mb-6 text-brand">
-          <span className="text-lg font-bold">+{stats.xpEarned} XP</span>
-          <span className="text-slate-400">·</span>
-          <span className="text-slate-500 text-sm">Độ chính xác: {accuracy}%</span>
+        <div className="flex items-center justify-center gap-2 mb-6 text-airmail">
+          <span className="text-lg font-bold font-mono">+{stats.xpEarned} XP</span>
+          <span className="text-ink-muted">·</span>
+          <span className="text-ink-muted text-sm">Độ chính xác: {accuracy}%</span>
         </div>
 
         {onRestart && (
@@ -129,7 +129,7 @@ export default function FlashcardSession({ cards, onComplete, onRestart }: Flash
       {/* Progress */}
       <div className="flex items-center gap-4">
         <ProgressBar value={progress} className="flex-1" color="blue" size="sm" />
-        <span className="text-sm text-slate-500 flex-shrink-0">
+        <span className="text-sm text-ink-muted flex-shrink-0">
           {currentIndex + 1} / {cards.length}
         </span>
       </div>
@@ -142,32 +142,41 @@ export default function FlashcardSession({ cards, onComplete, onRestart }: Flash
         <button
           onClick={() => handleResult("dontknow")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-red-200 hover:border-red-400 hover:bg-red-50 disabled:opacity-50")}
+          className={cn(
+            "flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-md border-[1.5px] transition-all flex-1 sm:flex-initial",
+            "border-airmail/25 hover:border-airmail hover:bg-airmail/5 disabled:opacity-50",
+          )}
         >
-          <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
-          <span className="text-xs font-medium text-red-400 whitespace-nowrap">Chưa biết</span>
+          <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-airmail" />
+          <span className="text-xs font-medium text-airmail whitespace-nowrap">Chưa biết</span>
         </button>
 
         <button
           onClick={() => handleResult("hard")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-yellow-200 hover:border-yellow-400 hover:bg-yellow-50 disabled:opacity-50")}
+          className={cn(
+            "flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-md border-[1.5px] transition-all flex-1 sm:flex-initial",
+            "border-gold-foil/40 hover:border-gold-foil hover:bg-gold-foil/10 disabled:opacity-50",
+          )}
         >
-          <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" />
-          <span className="text-xs font-medium text-yellow-500 whitespace-nowrap">Còn khó</span>
+          <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-gold-foil" />
+          <span className="text-xs font-medium text-[#8A6425] whitespace-nowrap">Còn khó</span>
         </button>
 
         <button
           onClick={() => handleResult("know")}
           disabled={isSubmitting}
-          className={cn("flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-1 sm:flex-initial", "border-green-200 hover:border-green-400 hover:bg-green-50 disabled:opacity-50")}
+          className={cn(
+            "flex flex-col items-center gap-1.5 px-3 sm:px-6 py-2.5 sm:py-3 rounded-md border-[1.5px] transition-all flex-1 sm:flex-initial",
+            "border-stamp-teal/30 hover:border-stamp-teal hover:bg-stamp-teal/10 disabled:opacity-50",
+          )}
         >
-          <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
-          <span className="text-xs font-medium text-green-500 whitespace-nowrap">Đã biết</span>
+          <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-stamp-teal" />
+          <span className="text-xs font-medium text-stamp-teal whitespace-nowrap">Đã biết</span>
         </button>
       </div>
 
-      <p className="text-center text-xs text-slate-400">Nhấn vào thẻ để xem nghĩa, rồi chọn mức độ nhớ</p>
+      <p className="text-center text-xs text-ink-muted/70">Nhấn vào thẻ để xem nghĩa, rồi chọn mức độ nhớ</p>
     </div>
   );
 }
