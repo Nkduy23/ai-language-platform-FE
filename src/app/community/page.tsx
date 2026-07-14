@@ -41,26 +41,28 @@ export default function CommunityPage() {
           <Plus className="w-4 h-4 mr-1.5" /> Đặt câu hỏi
         </Button>
 
-        {data?.data.map((q) => (
-          <Link key={q.id} href={`/community/${q.id}`}>
-            <Card hover className="cursor-pointer">
-              <div className="flex items-start justify-between mb-1">
-                <h3 className="font-semibold text-slate-900">{q.title}</h3>
-                <span className="text-xs text-brand shrink-0 ml-2">{q.language.code}</span>
-              </div>
-              <p className="text-sm text-slate-500 line-clamp-2 mb-3">{q.content}</p>
-              <div className="flex items-center gap-4 text-xs text-slate-400">
-                <span className="flex items-center gap-1">
-                  <MessageSquare className="w-3.5 h-3.5" /> {q._count.answers} trả lời
-                </span>
-                <span className="flex items-center gap-1">
-                  <ThumbsUp className="w-3.5 h-3.5" /> {q._count.likes} thích
-                </span>
-                <span>{q.user.profile?.displayName ?? "Ẩn danh"}</span>
-              </div>
-            </Card>
-          </Link>
-        ))}
+        <div className="flex flex-col gap-4">
+          {data?.data.map((q) => (
+            <Link key={q.id} href={`/community/${q.id}`}>
+              <Card hover className="cursor-pointer">
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="font-semibold text-slate-900">{q.title}</h3>
+                  <span className="text-xs text-brand shrink-0 ml-2">{q.language.code}</span>
+                </div>
+                <p className="text-sm text-slate-500 line-clamp-2 mb-3">{q.content}</p>
+                <div className="flex items-center gap-4 text-xs text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <MessageSquare className="w-3.5 h-3.5" /> {q._count.answers} trả lời
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <ThumbsUp className="w-3.5 h-3.5" /> {q._count.likes} thích
+                  </span>
+                  <span>{q.user.profile?.displayName ?? "Ẩn danh"}</span>
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </div>
 
         {data?.data.length === 0 && <p className="text-center text-slate-400 py-10">Chưa có câu hỏi nào, hãy là người đầu tiên!</p>}
       </div>
