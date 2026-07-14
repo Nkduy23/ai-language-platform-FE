@@ -35,7 +35,7 @@ export default function SpeakingPage() {
                   <button
                     key={p}
                     onClick={() => setPrompt(p)}
-                    className={`text-left text-sm rounded-lg border px-3 py-2 ${prompt === p ? "border-brand bg-brand/5 text-brand" : "border-surface-border text-slate-600"}`}
+                    className={`text-left text-sm rounded-md border-[1.5px] px-3 py-2 transition-colors ${prompt === p ? "border-airmail bg-airmail/5 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"}`}
                   >
                     {p}
                   </button>

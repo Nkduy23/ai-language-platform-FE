@@ -22,13 +22,19 @@ export default function RecordButton({ isRecording, isAnalyzing, onStart, onStop
         onClick={handleClick}
         disabled={isAnalyzing}
         className={cn(
-          "w-20 h-20 rounded-full flex items-center justify-center transition-all shadow-lg disabled:opacity-60",
-          isRecording ? "bg-red-500 animate-pulse" : "bg-brand hover:bg-brand-dark",
+          "w-20 h-20 rounded-full flex items-center justify-center transition-all shadow-stamp disabled:opacity-60",
+          isRecording ? "bg-airmail-dark animate-pulse" : "bg-airmail hover:bg-airmail-dark",
         )}
       >
-        {isAnalyzing ? <Loader2 className="w-8 h-8 text-white animate-spin" /> : isRecording ? <Square className="w-7 h-7 text-white" fill="white" /> : <Mic className="w-8 h-8 text-white" />}
+        {isAnalyzing ? (
+          <Loader2 className="w-8 h-8 text-postcard animate-spin" />
+        ) : isRecording ? (
+          <Square className="w-7 h-7 text-postcard" fill="currentColor" />
+        ) : (
+          <Mic className="w-8 h-8 text-postcard" />
+        )}
       </button>
-      <p className="text-sm text-slate-500">{isAnalyzing ? "Đang phân tích..." : isRecording ? "Bấm để dừng ghi âm" : "Bấm để bắt đầu nói"}</p>
+      <p className="text-sm text-ink-muted">{isAnalyzing ? "Đang phân tích..." : isRecording ? "Bấm để dừng ghi âm" : "Bấm để bắt đầu nói"}</p>
     </div>
   );
 }

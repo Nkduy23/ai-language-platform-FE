@@ -87,7 +87,7 @@ export default function GrammarDetailPage() {
               {lesson.language.flag} {lesson.language.name}
             </span>
             {isCompleted && (
-              <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
+              <span className="flex items-center gap-1 text-xs text-stamp-teal font-medium">
                 <CheckCircle className="w-3.5 h-3.5" />
                 Đã hoàn thành
               </span>
@@ -182,7 +182,7 @@ function MarkdownContent({ content }: { content: string }) {
       );
     } else if (line.startsWith(">")) {
       blocks.push(
-        <blockquote key={i} className="border-l-4 border-brand pl-4 py-1 bg-blue-50 rounded-r-lg italic text-slate-600">
+        <blockquote key={i} className="border-l-4 border-airmail pl-4 py-1 bg-airmail/5 rounded-r-md italic text-ink-muted">
           {renderInline(line.slice(1).trim())}
         </blockquote>,
       );

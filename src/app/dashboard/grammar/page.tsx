@@ -57,7 +57,7 @@ export default function GrammarPage() {
               key={code}
               onClick={() => setSelectedLang(code)}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
-                selectedLang === code ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                selectedLang === code ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
               }`}
             >
               <span>{LANGUAGES[code].flag}</span>
@@ -73,7 +73,7 @@ export default function GrammarPage() {
           <button
             onClick={() => setSelectedLevel("")}
             className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-              selectedLevel === "" ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+              selectedLevel === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
             }`}
           >
             Tất cả
@@ -83,7 +83,7 @@ export default function GrammarPage() {
               key={level}
               onClick={() => setSelectedLevel(level)}
               className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                selectedLevel === level ? "border-brand bg-blue-50 text-brand" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                selectedLevel === level ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
               }`}
             >
               {level}
@@ -128,16 +128,16 @@ export default function GrammarPage() {
                 <Link key={lesson.id} href={`/dashboard/grammar/${lesson.id}`}>
                   <div
                     className={cn(
-                      "flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-150",
-                      "hover:border-brand hover:shadow-card-hover cursor-pointer",
-                      lesson.progress?.status === "COMPLETED" ? "border-green-200" : "border-slate-200",
+                      "flex items-center gap-4 p-4 bg-postcard rounded-md border-[1.5px] transition-all duration-150",
+                      "hover:border-airmail hover:shadow-card-hover cursor-pointer",
+                      lesson.progress?.status === "COMPLETED" ? "border-stamp-teal/30" : "border-paper-line",
                     )}
                   >
                     {/* Index */}
                     <div
                       className={cn(
-                        "w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-semibold",
-                        lesson.progress?.status === "COMPLETED" ? "bg-green-100 text-green-600" : "bg-slate-100 text-slate-500",
+                        "w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-semibold font-mono",
+                        lesson.progress?.status === "COMPLETED" ? "bg-stamp-teal/15 text-stamp-teal" : "bg-postcard-dark text-ink-muted",
                       )}
                     >
                       {lesson.progress?.status === "COMPLETED" ? <CheckCircle className="w-5 h-5" /> : idx + 1}
@@ -145,11 +145,11 @@ export default function GrammarPage() {
 
                     {/* Title */}
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-slate-900 truncate">{lesson.title}</p>
-                      {lesson.progress?.status === "COMPLETED" && <p className="text-xs text-green-500 mt-0.5">Đã hoàn thành</p>}
+                      <p className="font-medium text-ink-navy truncate">{lesson.title}</p>
+                      {lesson.progress?.status === "COMPLETED" && <p className="text-xs text-stamp-teal mt-0.5">Đã hoàn thành</p>}
                     </div>
 
-                    <ChevronRight className="w-4 h-4 text-slate-300 flex-shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-paper-line flex-shrink-0" />
                   </div>
                 </Link>
               ))}
