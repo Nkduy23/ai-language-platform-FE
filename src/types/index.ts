@@ -53,6 +53,25 @@ export interface UserMe {
   subscription: UserSubscription;
 }
 
+/** Khớp với response thật của GET /users/me/progress — 1 log hoạt động học tập
+ * (mỗi lần hoàn thành 1 flashcard/quiz/bài học...), không phải dữ liệu đã tổng
+ * hợp theo ngày. FE tự gom nhóm theo ngày để vẽ biểu đồ (xem ProfileProgressChart). */
+export interface ProgressActivityItem {
+  id: string;
+  userId: string;
+  resourceId: string;
+  type: string;
+  status: string;
+  score: number | null;
+  xpEarned: number;
+  completedAt: string | null;
+  updatedAt: string;
+}
+
+export interface UserProgress {
+  items: ProgressActivityItem[];
+}
+
 // ─── Vocabulary ───────────────────────────────────────────────────────────────
 
 export interface Language {

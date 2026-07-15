@@ -1,6 +1,6 @@
 // Users API — profile, progress, streak
 import apiClient from "./client";
-import type { UserMe } from "@/types";
+import type { UserMe, UserProgress } from "@/types";
 
 export const usersApi = {
   getMe: async () => {
@@ -23,7 +23,7 @@ export const usersApi = {
   },
 
   getProgress: async () => {
-    const res = await apiClient.get("/users/me/progress");
+    const res = await apiClient.get<UserProgress>("/users/me/progress");
     return res.data;
   },
 

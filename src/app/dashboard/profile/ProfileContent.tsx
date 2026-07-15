@@ -10,6 +10,7 @@ import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import UpgradePrompt from "@/components/shared/UpgradePrompt";
+import ProfileProgressChart from "@/components/shared/ProfileProgressChart";
 import { usersApi } from "@/lib/api/users";
 import { subscriptionsApi } from "@/lib/api/subscriptions";
 import { useAuthStore } from "@/store/authStore";
@@ -89,6 +90,8 @@ export default function ProfilePage() {
             </div>
           </Card>
         </div>
+
+        <ProfileProgressChart />
 
         <Card>
           <div className="flex items-center justify-between mb-1">
