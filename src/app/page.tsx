@@ -1,10 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Brain, MessageCircle, Mic, CheckCircle, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Brain, MessageCircle, Mic, CheckCircle, Zap, Star, ClipboardList, Flame, Trophy } from "lucide-react";
 import type { Metadata } from "next";
 import { contentApi } from "@/lib/api/content";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PostmarkStamp from "@/components/shared/motifs/PostmarkStamp";
+import ScrollReveal from "@/components/shared/motifs/ScrollReveal";
+import StatCounter from "@/components/shared/motifs/StatCounter";
+import FlightPath from "@/components/shared/motifs/FlightPath";
+import FaqAccordion from "@/components/shared/FaqAccordion";
 
 export const metadata: Metadata = {
   title: "AI Language Platform — Học Tiếng Anh, Trung, Nhật Cùng AI",
@@ -56,7 +60,76 @@ const LANG_TEXT = { en: "text-lang-en", zh: "text-lang-zh", ja: "text-[#8A6425]"
 
 const PERKS = ["Miễn phí hoàn toàn để bắt đầu", "Không cần thẻ tín dụng", "Học mọi lúc, mọi nơi", "Theo dõi tiến trình chi tiết"];
 
-const BLOG_PREVIEW_COUNT = 6;
+const STATS: { value: number; suffix: string; label: string; decimal?: boolean }[] = [
+  { value: 12000, suffix: "+", label: "Học viên đang học" },
+  { value: 850, suffix: "+", label: "Bài học & chủ đề" },
+  { value: 1200000, suffix: "+", label: "Lượt hội thoại với AI" },
+  { value: 4.8, suffix: "/5", label: "Đánh giá từ người học", decimal: true },
+];
+
+const HOW_IT_WORKS = [
+  {
+    icon: ClipboardList,
+    title: "1. Kiểm tra trình độ",
+    desc: "Làm bài placement test 5 phút để AI xác định đúng cấp độ CEFR của bạn — không đoán mò, không học lại từ đầu.",
+  },
+  {
+    icon: Flame,
+    title: "2. Học mỗi ngày",
+    desc: "Flashcard, Quiz, AI Chat và Speaking — xen kẽ theo lộ trình cá nhân hoá, chỉ 10-15 phút mỗi ngày.",
+  },
+  {
+    icon: Trophy,
+    title: "3. Theo dõi & lên cấp",
+    desc: "Giữ streak, tích XP, nhận huy hiệu và leo bảng xếp hạng khi trình độ của bạn được đóng dấu lên hộ chiếu.",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "Mình học tiếng Nhật được 3 tháng, giờ đã tự tin đặt món ở nhà hàng Nhật mà không cần tra Google Translate nữa.",
+    name: "Thảo My",
+    detail: "Học viên tiếng Nhật · N4",
+    accent: "ja" as const,
+  },
+  {
+    quote: "AI Chat sửa lỗi ngữ pháp ngay lập tức giúp mình nhớ lâu hơn hẳn so với học từ vựng đơn thuần.",
+    name: "Đức Anh",
+    detail: "Học viên tiếng Anh · B2",
+    accent: "en" as const,
+  },
+  {
+    quote: "Phần luyện phát âm rất hữu ích, mình phát hiện ra mấy lỗi thanh điệu mà trước giờ không để ý.",
+    name: "Gia Hân",
+    detail: "Học viên tiếng Trung · HSK3",
+    accent: "zh" as const,
+  },
+];
+
+const FAQS = [
+  {
+    question: "Nền tảng có thực sự miễn phí không?",
+    answer: "Có. Gói Free cho phép học flashcard, quiz và ngữ pháp không giới hạn. AI Chat và AI Speaking có giới hạn lượt dùng mỗi ngày; nâng cấp Premium/Pro nếu bạn cần dùng nhiều hơn.",
+  },
+  {
+    question: "AI chấm điểm phát âm có chính xác không?",
+    answer: "Hệ thống dùng công nghệ nhận diện giọng nói kết hợp GPT-4o để đánh giá phát âm, ngữ pháp, độ trôi chảy và từ vựng — tương đương một giáo viên bản ngữ đang lắng nghe bạn nói.",
+  },
+  {
+    question: "Tôi có thể học trên điện thoại không?",
+    answer: "Có, giao diện responsive đầy đủ trên di động. Bạn có thể học mọi lúc mọi nơi, kể cả luyện nói qua micro trên điện thoại.",
+  },
+  {
+    question: "Tôi có thể huỷ gói Premium/Pro bất cứ lúc nào không?",
+    answer: "Có. Không ràng buộc hợp đồng dài hạn, bạn có thể huỷ ngay trong trang Hồ sơ và vẫn dùng được tới hết chu kỳ đã thanh toán.",
+  },
+  {
+    question: "Placement test hoạt động thế nào?",
+    answer: "Bạn trả lời một loạt câu hỏi độ khó tăng dần; AI phân tích kết quả để xếp bạn vào đúng cấp độ CEFR (A1–C2) và gợi ý lộ trình học phù hợp ngay từ ngày đầu.",
+  },
+];
+
+const BLOG_PREVIEW_COUNT = 4;
 
 export default async function HomePage() {
   let posts: Awaited<ReturnType<typeof contentApi.listBlogPosts>>["data"] = [];
@@ -138,24 +211,49 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Stats — social proof, số liệu đếm lên khi cuộn tới */}
+      <section className="bg-ink-navy-dark py-10 sm:py-12 border-t border-white/10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 text-center">
+          {STATS.map((s, i) => (
+            <ScrollReveal key={s.label} delay={i * 0.08}>
+              <p className="text-2xl sm:text-3xl font-display font-bold text-gold-foil font-mono">
+                {s.decimal ? (
+                  <>
+                    {s.value}
+                    {s.suffix}
+                  </>
+                ) : (
+                  <StatCounter value={s.value} suffix={s.suffix} />
+                )}
+              </p>
+              <p className="text-xs sm:text-sm text-postcard/60 mt-1">{s.label}</p>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
       {/* Languages */}
       <section className="bg-postcard-dark py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl text-center mb-8 sm:mb-10">3 ngôn ngữ, 1 nền tảng</h2>
+          <ScrollReveal>
+            <h2 className="text-xl sm:text-2xl text-center mb-8 sm:mb-10">3 ngôn ngữ, 1 nền tảng</h2>
+          </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-            {LANGUAGES.map((lang) => (
-              <Link key={lang.name} href={lang.href}>
-                <div
-                  className={`relative postcard-corner bg-postcard rounded-md border-[1.5px] ${LANG_BORDER[lang.accent]} p-6 sm:p-8 text-center shadow-stamp-sm hover:shadow-stamp hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer`}
-                >
-                  <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block">{lang.flag}</span>
-                  <h3 className="font-display font-bold text-ink-navy text-base sm:text-lg mb-1">{lang.name}</h3>
-                  <p className="text-xs sm:text-sm text-ink-muted">{lang.desc}</p>
-                  <div className={`mt-3 sm:mt-4 inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium ${LANG_TEXT[lang.accent]}`}>
-                    Khám phá <ArrowRight className="w-3.5 h-3.5" />
+            {LANGUAGES.map((lang, i) => (
+              <ScrollReveal key={lang.name} delay={i * 0.08}>
+                <Link href={lang.href}>
+                  <div
+                    className={`relative postcard-corner bg-postcard rounded-md border-[1.5px] ${LANG_BORDER[lang.accent]} p-6 sm:p-8 text-center shadow-stamp-sm hover:shadow-stamp hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer`}
+                  >
+                    <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block">{lang.flag}</span>
+                    <h3 className="font-display font-bold text-ink-navy text-base sm:text-lg mb-1">{lang.name}</h3>
+                    <p className="text-xs sm:text-sm text-ink-muted">{lang.desc}</p>
+                    <div className={`mt-3 sm:mt-4 inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium ${LANG_TEXT[lang.accent]}`}>
+                      Khám phá <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -163,19 +261,75 @@ export default async function HomePage() {
 
       {/* Features */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Tất cả những gì bạn cần</h2>
-        <p className="text-sm sm:text-base text-ink-muted text-center mb-8 sm:mb-10 px-2">Từ từ vựng cơ bản đến hội thoại nâng cao — đầy đủ trong một app</p>
+        <ScrollReveal>
+          <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Tất cả những gì bạn cần</h2>
+          <p className="text-sm sm:text-base text-ink-muted text-center mb-8 sm:mb-10 px-2">Từ từ vựng cơ bản đến hội thoại nâng cao — đầy đủ trong một app</p>
+        </ScrollReveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="flex gap-4 p-5 sm:p-6 bg-postcard rounded-md border-[1.5px] border-paper-line shadow-stamp-sm">
-              <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-md flex items-center justify-center flex-shrink-0 ${f.color}`}>
-                <f.icon className="w-5 h-5" />
+          {FEATURES.map((f, i) => (
+            <ScrollReveal key={f.title} delay={i * 0.06}>
+              <div className="flex gap-4 p-5 sm:p-6 bg-postcard rounded-md border-[1.5px] border-paper-line shadow-stamp-sm">
+                <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-md flex items-center justify-center flex-shrink-0 ${f.color}`}>
+                  <f.icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-ink-navy mb-1 text-sm sm:text-base">{f.title}</h3>
+                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{f.desc}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-ink-navy mb-1 text-sm sm:text-base">{f.title}</h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{f.desc}</p>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* How it works — hành trình 3 bước, nối bằng flight-path chạy theo scroll */}
+      <section className="bg-postcard-dark py-12 sm:py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <ScrollReveal>
+            <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Hành trình học của bạn</h2>
+            <p className="text-sm sm:text-base text-ink-muted text-center mb-10 sm:mb-14 px-2">3 bước đơn giản, như đóng từng dấu mộc lên hộ chiếu ngôn ngữ</p>
+          </ScrollReveal>
+
+          <FlightPath className="space-y-10 sm:space-y-14">
+            {HOW_IT_WORKS.map((step, i) => (
+              <ScrollReveal key={step.title} delay={i * 0.1}>
+                <div className={`flex items-center gap-5 sm:gap-8 ${i % 2 === 1 ? "sm:flex-row-reverse sm:text-right" : ""}`}>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-airmail/10 border-[1.5px] border-airmail/30 flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
+                    <step.icon className="w-6 h-6 sm:w-7 sm:h-7 text-airmail" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-semibold text-ink-navy text-base sm:text-lg mb-1">{step.title}</h3>
+                    <p className="text-sm text-ink-muted leading-relaxed">{step.desc}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </FlightPath>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <ScrollReveal>
+          <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Học viên nói gì</h2>
+          <p className="text-sm sm:text-base text-ink-muted text-center mb-8 sm:mb-10 px-2">Những dấu mộc đầu tiên trên hành trình của họ</p>
+        </ScrollReveal>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          {TESTIMONIALS.map((t, i) => (
+            <ScrollReveal key={t.name} delay={i * 0.08}>
+              <div className={`postcard-corner bg-postcard rounded-md border-[1.5px] ${LANG_BORDER[t.accent]} p-5 sm:p-6 shadow-stamp-sm h-full flex flex-col`}>
+                <div className="flex gap-0.5 mb-3 text-gold-foil">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                </div>
+                <p className="text-sm text-ink-navy leading-relaxed italic flex-1">"{t.quote}"</p>
+                <div className="mt-4 pt-3 border-t border-paper-line">
+                  <p className="text-sm font-semibold text-ink-navy">{t.name}</p>
+                  <p className={`text-xs font-medium ${LANG_TEXT[t.accent]}`}>{t.detail}</p>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -184,30 +338,33 @@ export default async function HomePage() {
       {posts.length > 0 && (
         <section className="bg-postcard-dark py-12 sm:py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="flex items-center justify-between mb-8 sm:mb-10 gap-4">
-              <div>
-                <h2 className="text-xl sm:text-2xl">Blog học ngoại ngữ</h2>
-                <p className="text-sm sm:text-base text-ink-muted mt-1">Mẹo học tiếng Anh, Trung, Nhật hiệu quả cùng AI</p>
+            <ScrollReveal>
+              <div className="flex items-center justify-between mb-8 sm:mb-10 gap-4">
+                <div>
+                  <h2 className="text-xl sm:text-2xl">Blog học ngoại ngữ</h2>
+                  <p className="text-sm sm:text-base text-ink-muted mt-1">Mẹo học tiếng Anh, Trung, Nhật hiệu quả cùng AI</p>
+                </div>
+                <Link href="/marketing/blog" className="hidden sm:inline-flex items-center gap-1.5 text-airmail text-sm font-medium whitespace-nowrap hover:underline">
+                  Xem tất cả <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
-              <Link href="/marketing/blog" className="hidden sm:inline-flex items-center gap-1.5 text-airmail text-sm font-medium whitespace-nowrap hover:underline">
-                Xem tất cả <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
+            </ScrollReveal>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              {posts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/marketing/blog/${post.slug}`}
-                  className="block postcard-corner relative bg-postcard rounded-md border-[1.5px] border-paper-line p-5 sm:p-6 shadow-stamp-sm hover:shadow-stamp hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <span className="text-xs text-airmail font-mono font-medium">{post.language}</span>
-                  <h3 className="font-semibold text-ink-navy mt-1 mb-2 text-sm sm:text-base line-clamp-2">{post.title}</h3>
-                  <p className="text-xs sm:text-sm text-ink-muted line-clamp-2">{post.excerpt}</p>
-                  <p className="text-xs text-ink-muted/70 mt-3">
-                    {new Date(post.publishedAt).toLocaleDateString("vi-VN")} · {post.authorName}
-                  </p>
-                </Link>
+              {posts.map((post, i) => (
+                <ScrollReveal key={post.id} delay={i * 0.06}>
+                  <Link
+                    href={`/marketing/blog/${post.slug}`}
+                    className="block postcard-corner relative bg-postcard rounded-md border-[1.5px] border-paper-line p-5 sm:p-6 shadow-stamp-sm hover:shadow-stamp hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
+                  >
+                    <span className="text-xs text-airmail font-mono font-medium">{post.language}</span>
+                    <h3 className="font-semibold text-ink-navy mt-1 mb-2 text-sm sm:text-base line-clamp-2">{post.title}</h3>
+                    <p className="text-xs sm:text-sm text-ink-muted line-clamp-2">{post.excerpt}</p>
+                    <p className="text-xs text-ink-muted/70 mt-3">
+                      {new Date(post.publishedAt).toLocaleDateString("vi-VN")} · {post.authorName}
+                    </p>
+                  </Link>
+                </ScrollReveal>
               ))}
             </div>
 
@@ -219,6 +376,17 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* FAQ */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <ScrollReveal>
+          <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Câu hỏi thường gặp</h2>
+          <p className="text-sm sm:text-base text-ink-muted text-center mb-8 sm:mb-10 px-2">Còn thắc mắc gì khác? Liên hệ với chúng mình bất cứ lúc nào.</p>
+        </ScrollReveal>
+        <ScrollReveal>
+          <FaqAccordion items={FAQS} />
+        </ScrollReveal>
+      </section>
 
       {/* CTA */}
       <section className="relative bg-ink-navy py-12 sm:py-16 text-center overflow-hidden">
