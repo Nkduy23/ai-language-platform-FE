@@ -319,6 +319,8 @@ export interface CommunityQuestionSummary {
   language: Language;
   user: CommunityAuthor;
   _count: { answers: number; likes: number };
+  /** BE có thể chưa trả về field này — nếu thiếu, filter "đã giải quyết" sẽ không lọc được */
+  hasAcceptedAnswer?: boolean;
 }
 
 export interface CommunityAnswerItem {
