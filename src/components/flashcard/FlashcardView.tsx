@@ -74,43 +74,44 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
           <p className="text-xs text-ink-muted/60 mt-6">Nhấn để xem nghĩa</p>
         </div>
 
-        {/* Back — mặt sau bưu thiếp. Đường kẻ kiểu ô ghi địa chỉ chỉ nằm ở dải
-            chân thẻ (như địa chỉ thật trên bưu thiếp), không đè lên vùng nội
-            dung chính để không ảnh hưởng khả năng đọc nghĩa/ví dụ. */}
-        <div className="flashcard-back postcard-corner absolute inset-0 bg-ink-navy rounded-md border-[1.5px] border-ink-navy-dark shadow-stamp flex flex-col select-none overflow-hidden">
-          {/* Nội dung chính — nền sạch, không có đường kẻ đè lên */}
-          <div className="flex-1 flex flex-col justify-center gap-4 p-5 sm:p-8">
+        {/* Back */}
+        <div className="flashcard-back postcard-corner absolute inset-0 bg-ink-navy rounded-md border-[1.5px] border-ink-navy-dark shadow-stamp flex flex-col overflow-hidden select-none">
+          {/* Nội dung */}
+          <div className="flex-1 flex flex-col justify-center gap-5 p-6 sm:p-8">
             <div>
               <p className="text-postcard/60 text-sm font-medium mb-1">Nghĩa</p>
-              <p className="text-postcard text-xl sm:text-2xl font-display font-bold break-words">{card.meaningVi}</p>
-              {card.meaningEn && <p className="text-postcard/60 text-sm mt-1 italic">{card.meaningEn}</p>}
+
+              <p className="text-postcard text-2xl sm:text-3xl font-display font-bold break-words">{card.meaningVi}</p>
+
+              {card.meaningEn && <p className="text-postcard/60 italic text-sm mt-2">{card.meaningEn}</p>}
             </div>
 
             {card.exampleSentence && (
-              <div className="bg-white/10 rounded-md p-3 sm:p-4 border border-white/10">
-                <p className="text-postcard/60 text-xs font-medium mb-1">Ví dụ</p>
-                <p className="text-postcard text-sm leading-relaxed">{card.exampleSentence}</p>
+              <div className="rounded-lg border border-white/10 bg-white/10 p-4">
+                <p className="text-postcard/60 text-xs uppercase tracking-wide mb-2">Ví dụ</p>
+
+                <p className="text-postcard text-sm leading-7">{card.exampleSentence}</p>
               </div>
             )}
           </div>
 
-          {/* Dải "địa chỉ" ở chân thẻ — đường kẻ ngang chỉ nằm trong dải này */}
-          <div className="relative flex items-center justify-between px-5 sm:px-8 py-3 border-t border-white/10 flex-shrink-0">
-            <div
-              className="absolute inset-0 opacity-[0.18] pointer-events-none"
-              style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 15px, #F5EFE0 15px, #F5EFE0 16px)" }}
-            />
+          {/* Footer postcard */}
+          <div className="relative h-16 border-t border-white/10 flex items-center justify-between px-6 sm:px-8 flex-shrink-0">
+            {/* Đường chia địa chỉ */}
+            <div className="absolute right-36 top-0 bottom-0 w-px bg-white/10" />
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 speak();
               }}
-              className="relative flex items-center gap-2 px-3 py-1.5 bg-white/10 text-postcard rounded-md text-sm hover:bg-white/20 transition-colors border border-white/10"
+              className="relative z-10 flex items-center gap-2 rounded-md border border-white/10 bg-white/10 px-3 py-2 text-postcard text-sm transition-colors hover:bg-white/20"
             >
               <Volume2 className="w-4 h-4" />
               Phát âm
             </button>
-            <p className="relative text-postcard/60 text-xs">Nhấn để lật lại</p>
+
+            <p className="relative z-10 text-xs text-postcard/60">Nhấn để lật lại</p>
           </div>
         </div>
       </div>
