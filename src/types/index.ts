@@ -234,6 +234,26 @@ export interface SpeakingResult {
   feedback: SpeakingFeedback;
 }
 
+/** Lịch sử 1 lần luyện nói — khớp với response thật của GET /ai-speaking/sessions.
+ * Lưu ý: BE trả về mảng thẳng (không bọc trong { data, pagination }), và điểm số
+ * là string chứ không phải number. */
+export interface SpeakingSessionSummary {
+  id: string;
+  userId: string;
+  languageId: string;
+  originalText: string;
+  userAudioUrl: string;
+  transcribed: string;
+  scorePronun: string;
+  scoreGrammar: string;
+  scoreFluency: string;
+  scoreVocab: string;
+  feedback: { summary: string; details: string[] };
+  modelAudioUrl: string | null;
+  createdAt: string;
+  language: Language;
+}
+
 // ─── Subscriptions (checkout) ─────────────────────────────────────────────────
 
 export type CheckoutGateway = "stripe" | "vnpay";

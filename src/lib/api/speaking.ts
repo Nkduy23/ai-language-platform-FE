@@ -1,6 +1,6 @@
 // AI Speaking API — upload audio (multipart/form-data)
 import apiClient from "./client";
-import type { SpeakingResult, LanguageCode } from "@/types";
+import type { SpeakingResult, SpeakingSessionSummary, LanguageCode } from "@/types";
 import { API_ROUTES } from "@/lib/constants/routes";
 
 export const speakingApi = {
@@ -16,8 +16,9 @@ export const speakingApi = {
     return res.data;
   },
 
+  // BE trả về mảng thẳng, không bọc trong { data, pagination }
   getHistory: async () => {
-    const res = await apiClient.get(API_ROUTES.SPEAKING_SESSIONS);
+    const res = await apiClient.get<SpeakingSessionSummary[]>(API_ROUTES.SPEAKING_SESSIONS);
     return res.data;
   },
 };
