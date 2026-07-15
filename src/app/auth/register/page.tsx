@@ -54,7 +54,7 @@ export default function RegisterPage() {
       });
       setUser(res.user);
       toast.success("Đăng ký thành công! Chào mừng bạn 🎉");
-      router.push(ROUTES.DASHBOARD);
+      router.push(ROUTES.ONBOARDING);
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Đăng ký thất bại";
       toast.error(Array.isArray(msg) ? msg[0] : msg);
