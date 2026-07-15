@@ -9,6 +9,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import EmptyState from "@/components/ui/EmptyState";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import { communityApi } from "@/lib/api/community";
 import type { LanguageCode } from "@/types";
@@ -41,30 +42,39 @@ export default function CommunityPage() {
           <Plus className="w-4 h-4 mr-1.5" /> Đặt câu hỏi
         </Button>
 
-        <div className="flex flex-col gap-4">
-          {data?.data.map((q) => (
-            <Link key={q.id} href={`/community/${q.id}`}>
-              <Card hover className="cursor-pointer">
-                <div className="flex items-start justify-between mb-1">
-                  <h3 className="font-semibold text-slate-900">{q.title}</h3>
-                  <span className="text-xs text-brand shrink-0 ml-2">{q.language.code}</span>
-                </div>
-                <p className="text-sm text-slate-500 line-clamp-2 mb-3">{q.content}</p>
-                <div className="flex items-center gap-4 text-xs text-slate-400">
-                  <span className="flex items-center gap-1">
-                    <MessageSquare className="w-3.5 h-3.5" /> {q._count.answers} trả lời
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <ThumbsUp className="w-3.5 h-3.5" /> {q._count.likes} thích
-                  </span>
-                  <span>{q.user.profile?.displayName ?? "Ẩn danh"}</span>
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
+        {data?.data.map((q) => (
+          <Link key={q.id} href={`/community/${q.id}`}>
+            <Card hover className="cursor-pointer">
+              <div className="flex items-start justify-between mb-1">
+                <h3 className="font-semibold text-slate-900">{q.title}</h3>
+                <span className="text-xs text-brand shrink-0 ml-2">{q.language.code}</span>
+              </div>
+              <p className="text-sm text-slate-500 line-clamp-2 mb-3">{q.content}</p>
+              <div className="flex items-center gap-4 text-xs text-slate-400">
+                <span className="flex items-center gap-1">
+                  <MessageSquare className="w-3.5 h-3.5" /> {q._count.answers} trả lời
+                </span>
+                <span className="flex items-center gap-1">
+                  <ThumbsUp className="w-3.5 h-3.5" /> {q._count.likes} thích
+                </span>
+                <span>{q.user.profile?.displayName ?? "Ẩn danh"}</span>
+              </div>
+            </Card>
+          </Link>
+        ))}
 
-        {data?.data.length === 0 && <p className="text-center text-slate-400 py-10">Chưa có câu hỏi nào, hãy là người đầu tiên!</p>}
+        {data?.data.length === 0 && (
+          <EmptyState
+            icon={MessageSquare}
+            title="Chưa có câu hỏi nào"
+            description="Hãy là người đầu tiên đặt câu hỏi cho cộng đồng học ngoại ngữ!"
+            action={
+              <Button onClick={() => setShowAsk(true)} className="gap-2">
+                <MessageSquare className="w-4 h-4" /> Đặt câu hỏi đầu tiên
+              </Button>
+            }
+          />
+        )}
       </div>
 
       <Modal open={showAsk} onClose={() => setShowAsk(false)} title="Đặt câu hỏi mới">

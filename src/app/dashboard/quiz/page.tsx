@@ -142,25 +142,28 @@ export default function QuizPage() {
         </div>
       )}
 
-      {/* IDLE — chọn filter */}
+      {/* IDLE — thiết lập Quiz theo từng bước rõ ràng */}
       {pageState === "idle" && (
         <Card>
-          <div className="flex items-center gap-2 mb-5">
-            <Filter className="w-4 h-4 text-slate-400" />
-            <h2 className="font-semibold text-slate-900">Tùy chọn Quiz</h2>
+          <div className="flex items-center gap-2 mb-6">
+            <Filter className="w-4 h-4 text-ink-muted" />
+            <h2 className="font-semibold text-ink-navy">Thiết lập Quiz</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Ngôn ngữ */}
+          <div className="space-y-6">
+            {/* Bước 1 — Ngôn ngữ */}
             <div>
-              <p className="text-sm font-medium text-slate-700 mb-2">Ngôn ngữ</p>
-              <div className="flex flex-wrap gap-2">
+              <p className="flex items-center gap-2 text-sm font-medium text-ink-navy mb-2.5">
+                <span className="w-5 h-5 rounded-full bg-airmail/15 text-airmail text-xs font-bold font-mono flex items-center justify-center flex-shrink-0">1</span>
+                Chọn ngôn ngữ
+              </p>
+              <div className="flex flex-wrap gap-2 pl-7">
                 {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => (
                   <button
                     key={code}
                     onClick={() => setSelectedLang(code)}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
-                      selectedLang === code ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-md border-[1.5px] text-sm font-medium transition-all ${
+                      selectedLang === code ? "border-airmail bg-airmail/10 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"
                     }`}
                   >
                     <span>{LANGUAGES[code].flag}</span>
@@ -170,16 +173,19 @@ export default function QuizPage() {
               </div>
             </div>
 
-            {/* Số câu hỏi */}
+            {/* Bước 2 — Số câu hỏi */}
             <div>
-              <p className="text-sm font-medium text-slate-700 mb-2">Số câu hỏi</p>
-              <div className="flex flex-wrap gap-2">
+              <p className="flex items-center gap-2 text-sm font-medium text-ink-navy mb-2.5">
+                <span className="w-5 h-5 rounded-full bg-airmail/15 text-airmail text-xs font-bold font-mono flex items-center justify-center flex-shrink-0">2</span>
+                Số câu hỏi
+              </p>
+              <div className="flex flex-wrap gap-2 pl-7">
                 {[5, 10, 20].map((n) => (
                   <button
                     key={n}
                     onClick={() => setQuestionCount(n)}
-                    className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                      questionCount === n ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                    className={`px-4 py-2 rounded-md border-[1.5px] text-sm font-medium transition-all ${
+                      questionCount === n ? "border-airmail bg-airmail/10 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"
                     }`}
                   >
                     {n} câu
@@ -188,14 +194,17 @@ export default function QuizPage() {
               </div>
             </div>
 
-            {/* Cấp độ */}
-            <div className="col-span-1 sm:col-span-2">
-              <p className="text-sm font-medium text-slate-700 mb-2">Cấp độ</p>
-              <div className="flex flex-wrap gap-2">
+            {/* Bước 3 — Cấp độ */}
+            <div>
+              <p className="flex items-center gap-2 text-sm font-medium text-ink-navy mb-2.5">
+                <span className="w-5 h-5 rounded-full bg-airmail/15 text-airmail text-xs font-bold font-mono flex items-center justify-center flex-shrink-0">3</span>
+                Cấp độ <span className="text-ink-muted font-normal">(tuỳ chọn)</span>
+              </p>
+              <div className="flex flex-wrap gap-2 pl-7">
                 <button
                   onClick={() => setSelectedLevel("")}
-                  className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                    selectedLevel === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                  className={`px-3 py-1.5 rounded-md border-[1.5px] text-sm font-medium transition-all ${
+                    selectedLevel === "" ? "border-airmail bg-airmail/10 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"
                   }`}
                 >
                   Tất cả
@@ -204,8 +213,8 @@ export default function QuizPage() {
                   <button
                     key={level}
                     onClick={() => setSelectedLevel(level)}
-                    className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
-                      selectedLevel === level ? "border-airmail bg-airmail/10 text-airmail" : "border-slate-200 text-slate-600 hover:border-slate-300"
+                    className={`px-3 py-1.5 rounded-md border-[1.5px] text-sm font-medium transition-all ${
+                      selectedLevel === level ? "border-airmail bg-airmail/10 text-airmail" : "border-surface-border text-ink-muted hover:border-ink-navy/30"
                     }`}
                   >
                     {level}
@@ -215,7 +224,7 @@ export default function QuizPage() {
             </div>
           </div>
 
-          <div className="mt-6 pt-5 border-t border-slate-100">
+          <div className="mt-7 pt-5 border-t-[1.5px] border-surface-border">
             <Button size="lg" onClick={() => createMutation.mutate()} loading={createMutation.isPending} className="gap-2">
               <Brain className="w-4 h-4" />
               Bắt đầu {questionCount} câu hỏi
