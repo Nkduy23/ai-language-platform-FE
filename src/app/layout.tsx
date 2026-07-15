@@ -3,6 +3,7 @@ import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 import Providers from "./providers";
+import FloatingActionButtons from "@/components/shared/FloatingActionButtons";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <Providers>
           {children}
+          <FloatingActionButtons />
           <Toaster
             position="top-right"
             toastOptions={{
