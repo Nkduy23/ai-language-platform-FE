@@ -8,7 +8,10 @@ import PostmarkStamp from "@/components/shared/motifs/PostmarkStamp";
 import ScrollReveal from "@/components/shared/motifs/ScrollReveal";
 import StatCounter from "@/components/shared/motifs/StatCounter";
 import FlightPath from "@/components/shared/motifs/FlightPath";
+import HeroParallaxBg from "@/components/shared/motifs/HeroParallaxBg";
 import FaqAccordion from "@/components/shared/FaqAccordion";
+import StickyMobileCta from "@/components/shared/StickyMobileCta";
+import ProductShowcase from "@/components/shared/ProductShowcase";
 
 export const metadata: Metadata = {
   title: "AI Language Platform — Học Tiếng Anh, Trung, Nhật Cùng AI",
@@ -146,8 +149,8 @@ export default async function HomePage() {
 
       {/* Hero — nền ink-navy như trang bìa hộ chiếu */}
       <section className="relative bg-ink-navy overflow-hidden">
-        {/* Texture chấm mờ thay cho world-map line-art (asset thật sẽ thay sau) */}
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none" style={{ backgroundImage: "radial-gradient(#F5EFE0 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
+        {/* Texture chấm mờ thay cho world-map line-art (asset thật sẽ thay sau), trôi chậm hơn nội dung khi cuộn */}
+        <HeroParallaxBg />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 md:pt-24 pb-14 sm:pb-20 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-postcard text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 rounded-full mb-6 sm:mb-8">
@@ -230,6 +233,17 @@ export default async function HomePage() {
             </ScrollReveal>
           ))}
         </div>
+      </section>
+
+      {/* Product showcase — xem giao diện thật trước khi đăng ký */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <ScrollReveal>
+          <h2 className="text-xl sm:text-2xl text-center mb-2 sm:mb-3">Giao diện thật, không chỉ là lời hứa</h2>
+          <p className="text-sm sm:text-base text-ink-muted text-center mb-8 sm:mb-10 px-2">Xem qua Flashcard, AI Chat và Quiz trước khi bắt đầu</p>
+        </ScrollReveal>
+        <ScrollReveal>
+          <ProductShowcase />
+        </ScrollReveal>
       </section>
 
       {/* Languages */}
@@ -406,6 +420,7 @@ export default async function HomePage() {
       </section>
 
       <Footer />
+      <StickyMobileCta />
     </div>
   );
 }
