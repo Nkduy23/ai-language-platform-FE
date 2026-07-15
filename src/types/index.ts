@@ -92,6 +92,8 @@ export interface GrammarLesson {
   level: CefrLevel;
   orderIndex: number;
   language: Language;
+  /** Chủ đề ngữ pháp (vd: "Thì động từ", "Câu điều kiện") — optional, BE có thể chưa trả về */
+  category?: string;
   progress?: {
     status: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
     score?: number;

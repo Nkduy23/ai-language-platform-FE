@@ -2,8 +2,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Trophy, Sparkles, Award } from "lucide-react";
+import { Trophy, Sparkles, Award, ArrowRight } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
@@ -57,9 +58,57 @@ export default function RoadmapPage() {
     <DashboardLayout title="Lộ trình" description="Lộ trình học tập cá nhân hoá">
       <div className="max-w-3xl mx-auto space-y-6">
         <Card>
-          <h3 className="font-semibold text-slate-900 mb-4">Trình độ hiện tại</h3>
+          <h3 className="font-semibold text-ink-navy mb-4">Trình độ hiện tại</h3>
           <RoadmapTree currentLevel={currentLevel} />
         </Card>
+
+        {/* Gợi ý hành động tiếp theo — nổi bật, có CTA rõ ràng đi thẳng vào việc cần làm */}
+        {recommendations && (
+          <Card className="border-airmail/30 bg-airmail/5">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-airmail/15 text-airmail flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-display font-semibold text-ink-navy mb-1">Bước tiếp theo của bạn</h3>
+                {recommendations.nextGrammarLesson ? (
+                  <>
+                    <p className="text-sm text-ink-muted mb-3">
+                      Học tiếp bài ngữ pháp <span className="font-medium text-ink-navy">{recommendations.nextGrammarLesson.title}</span> ({recommendations.nextGrammarLesson.level}) để đi đúng lộ
+                      trình.
+                    </p>
+                    <Link href={`/dashboard/grammar/${recommendations.nextGrammarLesson.id}`}>
+                      <Button size="sm" className="gap-1.5">
+                        Học ngay <ArrowRight className="w-3.5 h-3.5" />
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-ink-muted mb-3">Chưa có gợi ý bài học cụ thể — luyện thêm Flashcard hoặc Quiz để hệ thống hiểu bạn hơn nhé.</p>
+                    <div className="flex flex-wrap gap-2">
+                      <Link href="/dashboard/learn">
+                        <Button size="sm" variant="outline" className="gap-1.5">
+                          Học Flashcard <ArrowRight className="w-3.5 h-3.5" />
+                        </Button>
+                      </Link>
+                      <Link href="/dashboard/quiz">
+                        <Button size="sm" variant="outline" className="gap-1.5">
+                          Làm Quiz <ArrowRight className="w-3.5 h-3.5" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                )}
+                {recommendations.weakestArea && (
+                  <p className="text-xs text-ink-muted/70 mt-3">
+                    Điểm cần cải thiện: <span className="font-medium">{recommendations.weakestArea}</span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </Card>
+        )}
 
         {!questions ? (
           <Card>
@@ -103,26 +152,6 @@ export default function RoadmapPage() {
             <Button fullWidth disabled={!allAnswered} loading={submitTestMutation.isPending} onClick={() => submitTestMutation.mutate()}>
               Nộp bài
             </Button>
-          </Card>
-        )}
-
-        {recommendations && (
-          <Card>
-            <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-brand" /> Gợi ý cho bạn
-            </h3>
-            {recommendations.weakestArea ? (
-              <p className="text-sm text-slate-600 mb-2">
-                Điểm cần cải thiện: <span className="font-medium">{recommendations.weakestArea}</span>
-              </p>
-            ) : (
-              <p className="text-sm text-slate-500 mb-2">Luyện tập thêm để nhận gợi ý cá nhân hoá nhé!</p>
-            )}
-            {recommendations.nextGrammarLesson && (
-              <p className="text-sm text-slate-600">
-                Bài ngữ pháp tiếp theo: <span className="font-medium">{recommendations.nextGrammarLesson.title}</span>
-              </p>
-            )}
           </Card>
         )}
 
