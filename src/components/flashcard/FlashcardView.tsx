@@ -1,7 +1,7 @@
 // Single flashcard with flip animation
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Volume2, Star, StarOff } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import Badge from "@/components/ui/Badge";
@@ -16,6 +16,12 @@ interface FlashcardViewProps {
 
 export default function FlashcardView({ card, isFavorited, onToggleFavorite }: FlashcardViewProps) {
   const [flipped, setFlipped] = useState(false);
+
+  // Card mới (đổi id) → tự động lật lại về mặt trước, tránh việc user phải tự
+  // bấm lật lại khi đã next sang từ tiếp theo mà mặt thẻ vẫn đang ở mặt sau.
+  useEffect(() => {
+    setFlipped(false);
+  }, [card.id]);
 
   const speak = () => {
     if (typeof window === "undefined") return;
@@ -68,37 +74,43 @@ export default function FlashcardView({ card, isFavorited, onToggleFavorite }: F
           <p className="text-xs text-ink-muted/60 mt-6">Nhấn để xem nghĩa</p>
         </div>
 
-        {/* Back — mặt sau bưu thiếp, có đường kẻ kiểu ô ghi địa chỉ */}
-        <div className="flashcard-back postcard-corner absolute inset-0 bg-ink-navy rounded-md border-[1.5px] border-ink-navy-dark shadow-stamp flex flex-col justify-between p-5 sm:p-8 select-none overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.15] pointer-events-none"
-            style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 27px, #F5EFE0 27px, #F5EFE0 28px)" }}
-          />
-          <div className="relative">
-            <p className="text-postcard/60 text-sm font-medium mb-1">Nghĩa</p>
-            <p className="text-postcard text-xl sm:text-2xl font-display font-bold break-words">{card.meaningVi}</p>
-            {card.meaningEn && <p className="text-postcard/60 text-sm mt-1 italic">{card.meaningEn}</p>}
+        {/* Back — mặt sau bưu thiếp. Đường kẻ kiểu ô ghi địa chỉ chỉ nằm ở dải
+            chân thẻ (như địa chỉ thật trên bưu thiếp), không đè lên vùng nội
+            dung chính để không ảnh hưởng khả năng đọc nghĩa/ví dụ. */}
+        <div className="flashcard-back postcard-corner absolute inset-0 bg-ink-navy rounded-md border-[1.5px] border-ink-navy-dark shadow-stamp flex flex-col select-none overflow-hidden">
+          {/* Nội dung chính — nền sạch, không có đường kẻ đè lên */}
+          <div className="flex-1 flex flex-col justify-center gap-4 p-5 sm:p-8">
+            <div>
+              <p className="text-postcard/60 text-sm font-medium mb-1">Nghĩa</p>
+              <p className="text-postcard text-xl sm:text-2xl font-display font-bold break-words">{card.meaningVi}</p>
+              {card.meaningEn && <p className="text-postcard/60 text-sm mt-1 italic">{card.meaningEn}</p>}
+            </div>
+
+            {card.exampleSentence && (
+              <div className="bg-white/10 rounded-md p-3 sm:p-4 border border-white/10">
+                <p className="text-postcard/60 text-xs font-medium mb-1">Ví dụ</p>
+                <p className="text-postcard text-sm leading-relaxed">{card.exampleSentence}</p>
+              </div>
+            )}
           </div>
 
-          {card.exampleSentence && (
-            <div className="relative bg-white/10 rounded-md p-3 sm:p-4 border border-white/10">
-              <p className="text-postcard/60 text-xs font-medium mb-1">Ví dụ</p>
-              <p className="text-postcard text-sm leading-relaxed">{card.exampleSentence}</p>
-            </div>
-          )}
-
-          <div className="relative flex items-center justify-between">
+          {/* Dải "địa chỉ" ở chân thẻ — đường kẻ ngang chỉ nằm trong dải này */}
+          <div className="relative flex items-center justify-between px-5 sm:px-8 py-3 border-t border-white/10 flex-shrink-0">
+            <div
+              className="absolute inset-0 opacity-[0.18] pointer-events-none"
+              style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 15px, #F5EFE0 15px, #F5EFE0 16px)" }}
+            />
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 speak();
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white/10 text-postcard rounded-md text-sm hover:bg-white/20 transition-colors border border-white/10"
+              className="relative flex items-center gap-2 px-3 py-1.5 bg-white/10 text-postcard rounded-md text-sm hover:bg-white/20 transition-colors border border-white/10"
             >
               <Volume2 className="w-4 h-4" />
               Phát âm
             </button>
-            <p className="text-postcard/60 text-xs">Nhấn để lật lại</p>
+            <p className="relative text-postcard/60 text-xs">Nhấn để lật lại</p>
           </div>
         </div>
       </div>

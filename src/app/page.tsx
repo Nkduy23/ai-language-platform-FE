@@ -132,7 +132,7 @@ const FAQS = [
   },
 ];
 
-const BLOG_PREVIEW_COUNT = 4;
+const BLOG_PREVIEW_COUNT = 6;
 
 export default async function HomePage() {
   let posts: Awaited<ReturnType<typeof contentApi.listBlogPosts>>["data"] = [];
