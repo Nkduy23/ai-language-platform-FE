@@ -18,6 +18,8 @@ export const ROUTES = {
   SPEAKING: "/dashboard/speaking",
   ROADMAP: "/dashboard/roadmap",
   PROFILE: "/dashboard/profile",
+  ANALYTICS: "/dashboard/analytics",
+  NOTIFICATIONS: "/dashboard/notifications",
   COMMUNITY: "/community",
 } as const;
 

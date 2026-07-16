@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, GraduationCap, Users, X } from "lucide-react";
+import { BookOpen, Brain, MessageCircle, Mic, Map, User, LogOut, Zap, Flame, GraduationCap, Users, BarChart3, X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { ROUTES } from "@/lib/constants/routes";
 import { useAuthStore } from "@/store/authStore";
 import { authApi } from "@/lib/api/auth";
-import { useQuery } from "@tanstack/react-query";
-import { usersApi } from "@/lib/api/users";
 import toast from "react-hot-toast";
 
 const NAV_ITEMS = [
@@ -18,6 +16,7 @@ const NAV_ITEMS = [
   { href: ROUTES.CHAT, label: "AI Chat", icon: MessageCircle },
   { href: ROUTES.SPEAKING, label: "Speaking", icon: Mic },
   { href: ROUTES.ROADMAP, label: "Lộ trình", icon: Map },
+  { href: ROUTES.ANALYTICS, label: "Thống kê", icon: BarChart3 },
   { href: ROUTES.COMMUNITY, label: "Cộng đồng", icon: Users },
   { href: ROUTES.PROFILE, label: "Hồ sơ", icon: User },
 ];
@@ -32,13 +31,6 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuthStore();
-
-  const { data: streak } = useQuery({
-    queryKey: ["users-streak"],
-    queryFn: usersApi.getStreak,
-    enabled: !!user,
-    staleTime: 60 * 1000,
-  });
 
   const handleLogout = async () => {
     try {
@@ -122,12 +114,12 @@ export default function Sidebar({ open = false, onClose }: SidebarProps) {
           <div className="flex items-center gap-3 px-3 py-2 bg-white/5 border border-white/10 rounded-md font-mono">
             <div className="flex items-center gap-1.5 text-gold-foil">
               <Flame className="w-4 h-4" />
-              <span className="text-xs font-semibold">{streak?.streakDays ?? 0} ngày</span>
+              <span className="text-xs font-semibold">0 ngày</span>
             </div>
             <div className="w-px h-4 bg-white/10" />
             <div className="flex items-center gap-1.5 text-airmail">
               <Zap className="w-4 h-4" />
-              <span className="text-xs font-semibold">{streak?.totalXp ?? 0} XP</span>
+              <span className="text-xs font-semibold">0 XP</span>
             </div>
           </div>
 

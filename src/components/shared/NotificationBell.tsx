@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { notificationsApi } from "@/lib/api/notifications";
+import { ROUTES } from "@/lib/constants/routes";
 import { cn } from "@/lib/utils/cn";
 
 export default function NotificationBell() {
@@ -66,6 +67,14 @@ export default function NotificationBell() {
                 </Link>
               ))
             )}
+
+            <Link
+              href={ROUTES.NOTIFICATIONS}
+              onClick={() => setOpen(false)}
+              className="block text-center text-sm font-medium text-airmail py-2.5 border-t-[1.5px] border-surface-border hover:bg-postcard-dark"
+            >
+              Xem tất cả thông báo
+            </Link>
           </div>
         </>
       )}
