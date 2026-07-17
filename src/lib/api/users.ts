@@ -31,4 +31,9 @@ export const usersApi = {
     const res = await apiClient.get<{ streakDays: number; totalXp: number; lastActiveAt: string | null }>("/users/me/streak");
     return res.data;
   },
+
+  completeOnboarding: async () => {
+    const res = await apiClient.post("/users/me/complete-onboarding");
+    return res.data;
+  },
 };

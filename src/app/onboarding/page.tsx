@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import PostmarkStamp from "@/components/shared/motifs/PostmarkStamp";
 import { roadmapApi } from "@/lib/api/roadmap";
+import { usersApi } from "@/lib/api/users";
 import { ROUTES } from "@/lib/constants/routes";
 import type { LanguageCode, PlacementQuestion, CefrLevel } from "@/types";
 
@@ -24,7 +25,17 @@ export default function OnboardingPage() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [resultLevel, setResultLevel] = useState<CefrLevel | null>(null);
 
-  const goToDashboard = () => router.push(ROUTES.DASHBOARD);
+  // Đánh dấu đã hoàn thành onboarding rồi mới vào Dashboard — áp dụng cho MỌI đường thoát
+  // (bỏ qua ở bước 1, bỏ qua ở bước 2, hoặc hoàn thành xong bước 3), vì cả 3 nút đều gọi hàm này.
+  // Lỗi gọi API ở đây không nên chặn user vào Dashboard — chỉ log, không toast/throw.
+  const goToDashboard = async () => {
+    try {
+      await usersApi.completeOnboarding();
+    } catch {
+      // Không chặn điều hướng nếu lỡ lỗi — tệ nhất là lần sau onboarding hiện lại
+    }
+    router.push(ROUTES.DASHBOARD);
+  };
 
   const startTestMutation = useMutation({
     mutationFn: () => roadmapApi.startPlacementTest(language),
@@ -53,10 +64,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-ink-navy flex items-center justify-center px-4 py-10 relative overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(#F5EFE0 1px, transparent 1px)", backgroundSize: "22px 22px" }}
-      />
+      <div className="absolute inset-0 opacity-[0.08] pointer-events-none" style={{ backgroundImage: "radial-gradient(#F5EFE0 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
 
       <div className="relative w-full max-w-lg">
         {/* Step indicator */}
