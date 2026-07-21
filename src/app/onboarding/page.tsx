@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import PostmarkStamp from "@/components/shared/motifs/PostmarkStamp";
@@ -16,6 +16,13 @@ import type { LanguageCode, PlacementQuestion, CefrLevel } from "@/types";
 
 type Step = "language" | "test" | "result";
 
+// Câu hỏi "arrange the words" được nhận diện qua q.type (khớp với enum QuizQuestionType ở backend).
+// Nếu tên enum bên bạn khác "ARRANGE"/"ORDER" thì đổi lại điều kiện trong hàm này cho đúng.
+function isArrangeQuestion(q: PlacementQuestion) {
+  const t = (q.type ?? "").toString().toUpperCase();
+  return t.includes("ARRANGE") || t.includes("ORDER") || t.includes("REORDER");
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -23,6 +30,8 @@ export default function OnboardingPage() {
   const [language, setLanguage] = useState<LanguageCode>("EN");
   const [questions, setQuestions] = useState<PlacementQuestion[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  // Với câu "arrange": lưu thứ tự các INDEX (trong q.options) mà người dùng đã chọn, theo đúng thứ tự click
+  const [arrangeOrder, setArrangeOrder] = useState<Record<string, number[]>>({});
   const [resultLevel, setResultLevel] = useState<CefrLevel | null>(null);
 
   // Đánh dấu đã hoàn thành onboarding rồi mới vào Dashboard — áp dụng cho MỌI đường thoát
@@ -42,6 +51,7 @@ export default function OnboardingPage() {
     onSuccess: (data) => {
       setQuestions(data.questions);
       setAnswers({});
+      setArrangeOrder({});
       setStep("test");
     },
   });
@@ -60,7 +70,27 @@ export default function OnboardingPage() {
     },
   });
 
-  const allAnswered = questions.every((q) => answers[q.id]?.trim());
+  // Bấm 1 từ: nếu chưa được chọn -> thêm vào cuối khay câu trả lời; nếu đã chọn -> bỏ ra khỏi khay (trả lại ngân hàng từ)
+  const toggleArrangeWord = (q: PlacementQuestion, idx: number) => {
+    setArrangeOrder((prev) => {
+      const current = prev[q.id] ?? [];
+      const isChosen = current.includes(idx);
+      const nextOrder = isChosen ? current.filter((i) => i !== idx) : [...current, idx];
+      const words = nextOrder.map((i) => q.options![i]);
+      setAnswers((a) => ({ ...a, [q.id]: words.join(" ") }));
+      return { ...prev, [q.id]: nextOrder };
+    });
+  };
+
+  const allAnswered = questions.every((q) => {
+    const ans = answers[q.id]?.trim();
+    if (!ans) return false;
+    // Với câu arrange, bắt buộc phải dùng hết toàn bộ các từ được cho thì mới coi là trả lời xong
+    if (isArrangeQuestion(q) && q.options) {
+      return (arrangeOrder[q.id]?.length ?? 0) === q.options.length;
+    }
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-ink-navy flex items-center justify-center px-4 py-10 relative overflow-hidden">
@@ -104,7 +134,39 @@ export default function OnboardingPage() {
                     <p className="text-sm font-medium text-ink-navy mb-2">
                       {i + 1}. [{q.level}] {q.question}
                     </p>
-                    {q.options ? (
+
+                    {isArrangeQuestion(q) && q.options ? (
+                      <div className="space-y-3">
+                        {/* Khay câu trả lời — các từ đã chọn, theo đúng thứ tự đã bấm */}
+                        <div className="min-h-[46px] flex flex-wrap items-center gap-2 rounded-md border-[1.5px] border-dashed border-surface-border p-2 bg-postcard">
+                          {(arrangeOrder[q.id] ?? []).length === 0 && <span className="text-xs text-ink-muted/60 italic px-1">Nhấn vào các từ bên dưới theo đúng thứ tự...</span>}
+                          {(arrangeOrder[q.id] ?? []).map((idx, pos) => (
+                            <button
+                              key={`${q.id}-chosen-${idx}-${pos}`}
+                              onClick={() => toggleArrangeWord(q, idx)}
+                              className="flex items-center gap-1 text-sm rounded-md border-[1.5px] border-airmail bg-airmail/10 text-airmail px-3 py-1.5"
+                            >
+                              {q.options![idx]}
+                              <X className="w-3 h-3 opacity-60" />
+                            </button>
+                          ))}
+                        </div>
+                        {/* Ngân hàng từ — các từ chưa được dùng */}
+                        <div className="flex flex-wrap gap-2">
+                          {q.options.map((opt, idx) =>
+                            (arrangeOrder[q.id] ?? []).includes(idx) ? null : (
+                              <button
+                                key={`${q.id}-pool-${idx}`}
+                                onClick={() => toggleArrangeWord(q, idx)}
+                                className="text-sm rounded-md border-[1.5px] border-surface-border text-ink-muted px-3 py-1.5 hover:border-ink-navy/30"
+                              >
+                                {opt}
+                              </button>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    ) : q.options ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {q.options.map((opt) => (
                           <button
